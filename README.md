@@ -1,5 +1,8 @@
 # Zotero 支撑信息（SI）看图补丁 —— 交接包
 
+[![verify](https://github.com/baowenbodiyi/zotero-si-figure-kit/actions/workflows/verify.yml/badge.svg)](https://github.com/baowenbodiyi/zotero-si-figure-kit/actions/workflows/verify.yml)
+[![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL--3.0-blue.svg)](LICENSE)
+
 把这套改动**在另一台机器上复刻出来**需要的全部东西，都在这个目录里。
 所有脚本都**不写死路径**：先探测你自己的环境，再按你的路径干活。
 
@@ -73,8 +76,9 @@
 > 覆盖层和补丁不是两处独立事实：`scripts/lib/check_overlay.py` 会逐字节比对两者，
 > CI 每次跑（`.github/workflows/verify.yml`），防止它们漂移。
 
-**这四个平台不是"我说支持"**：CI 在 `ubuntu-latest` / `macos-latest` /
-`windows-latest`（PowerShell 路线）各跑一遍全部离线断言。macOS 我没有真机，
+**这四个平台不是"我说支持"**：CI（就是上面那个徽章）在 `ubuntu-latest` /
+`macos-latest` / `windows-latest`（PowerShell 路线）各跑一遍全部离线断言，
+外加两条守卫（覆盖层↔补丁逐字节一致、可移植性 lint）。macOS 我没有真机，
 所以那里的结论**来自 CI，不是我本机实测** —— 这条边界请照抄。
 
 ---
