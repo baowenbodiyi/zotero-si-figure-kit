@@ -35,7 +35,7 @@ PRISTINE="${1:-${ZPT_PRISTINE:-}}"
 }
 
 DEST="$HERE/work/translate"
-echo "== 准备源码树（宿主 = $HOST_OS）=="
+echo "== 准备源码树（宿主 = ${HOST_OS}）=="
 echo "  上游   : $PRISTINE"
 echo "  覆盖层 : $(basename "$OVERLAY")"
 echo "  补丁   : $(basename "$PATCH")  （仅用于自洽校验）"
@@ -66,7 +66,7 @@ fi
 missing=0
 while read -r f; do
   [ -n "$f" ] || continue
-  [ -e "$DEST/$f" ] || { echo "  ❌ 补丁说会有 $f，但不存在"; missing=1; }
+  [ -e "$DEST/$f" ] || { echo "  ❌ 补丁说会有 ${f}，但不存在"; missing=1; }
 done <<EOF
 $(host_patch_files "$PATCH")
 EOF

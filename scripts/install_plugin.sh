@@ -102,7 +102,7 @@ echo "  启动缓存已清"
 # ── 5. 回读断言：从 profile 里那份 XPI 中把 BUILD_TAG 解出来（挡住 9p 缓存）
 RB="$(host_xpi_build_tag "$DST" | tr -d '\r')"
 if [ -n "$TAG" ] && [ "$RB" != "$TAG" ]; then
-  echo "⚠️  刚写完回读到 [$RB]（应为 $TAG）—— 9p 写回延迟，重写一次"
+  echo "⚠️  刚写完回读到 [$RB]（应为 ${TAG}）—— 9p 写回延迟，重写一次"
   sleep 2; rm -f "$DST"; cp "$XPI" "$DST"; sync 2>/dev/null || true
   RB="$(host_xpi_build_tag "$DST" | tr -d '\r')"
 fi
@@ -160,4 +160,4 @@ else
   fi
 fi
 echo ""
-echo "== 装完：版本 $VER，运行中的构建 = $TAG =="
+echo "== 装完：版本 ${VER}，运行中的构建 = $TAG =="

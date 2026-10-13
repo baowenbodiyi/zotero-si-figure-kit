@@ -34,6 +34,12 @@ EOF
   done
 }
 
+# ⭐ bash 3.2 专属：`$VAR` 紧跟非 ASCII（中文标点）→ 变量名被吞掉。
+#    实测：macOS CI 上 prepare_src.sh 报 "HOST_OS\xef: unbound variable"。
+#    修法：写 ${VAR}。`[^ -~]` 是「所有非 ASCII 字节」的可移植写法（不用 grep -P）。
+check_shell_bad '\$[A-Za-z_][A-Za-z0-9_]*[^ -~]' \
+  'bash 3.2 会把后面的中文标点当成变量名 —— 改写成 ${VAR}'
+
 check_shell_bad 'declare[[:space:]]+-A|(^|[^A-Za-z_])mapfile([^A-Za-z_]|$)|readarray' \
   'bash 4+ 专属，macOS 自带 bash 3.2 会语法报错'
 check_shell_bad '\$\{[A-Za-z_][A-Za-z0-9_]*,,|\$\{[A-Za-z_][A-Za-z0-9_]*\^\^' \
@@ -48,6 +54,10 @@ check_shell_bad '(^|[^A-Za-z0-9_/])python3([[:space:]]|$)' \
   'Windows 通常只有 python —— 用 host_py'
 check_shell_bad 'sort[[:space:]]+-V' \
   'BSD sort 未必有 -V —— 用 host_latest'
+# BSD sed **不认 \t**（当成字面字母 t）—— 用它剥制表符后的字段会把路径截断。
+# 实测后果：host_patch_files 返回 "addon/chrome/con" 这种，prepare 的文件校验失败。
+check_shell_bad 'sed[^|]*\\t' \
+  "BSD sed 不认 \\t（当字面 t）—— 用 cut -f1 或 awk -F'\\t'"
 check_shell_bad 'readlink[[:space:]]+-f' 'macOS 的 readlink 没有 -f'
 check_shell_bad 'date[[:space:]]+-d'      'macOS 的 date 没有 -d（是 -v）'
 check_shell_bad 'xargs[[:space:]]+-r'     'macOS 的 xargs 没有 -r'

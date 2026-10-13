@@ -54,6 +54,32 @@ def build_overlay_tree(pristine, overlay, dest):
             shutil.copy2(s, t)
 
 
+def run_patch(patch_file, cwd):
+    """在 cwd 里打补丁。
+
+    ⚠️ `--no-backup-if-mismatch` 是 **GNU patch 专属**，BSD patch（macOS 自带）
+    不认这个选项，会直接以 "unknown option" 失败 —— 表现为「macOS 上补丁永远打不上」。
+    所以先探测是不是 GNU patch，再决定要不要带这个参数；另外再兜一层：
+    万一探测失败而 patch 又报了 unknown option，就去掉它重试一次。
+    """
+    base = ["patch", "-p1", "-i", patch_file]
+    gnu = False
+    try:
+        h = subprocess.run(["patch", "--version"], capture_output=True, text=True)
+        gnu = "GNU patch" in (h.stdout + h.stderr)
+    except Exception:
+        pass
+    if gnu:
+        base.insert(2, "--no-backup-if-mismatch")
+    r = subprocess.run(base, cwd=cwd, capture_output=True)
+    if r.returncode != 0 and "--no-backup-if-mismatch" in base:
+        blob = (r.stdout + r.stderr).decode("utf-8", "replace").lower()
+        if "unknown option" in blob or "unrecognized option" in blob or "invalid option" in blob:
+            base.remove("--no-backup-if-mismatch")
+            r = subprocess.run(base, cwd=cwd, capture_output=True)
+    return r
+
+
 def main():
     if len(sys.argv) != 4:
         print(__doc__)
@@ -80,8 +106,7 @@ def main():
         shutil.copytree(pristine, scratch, symlinks=True)
         for d in PRUNE_DIRS:
             shutil.rmtree(os.path.join(scratch, d), ignore_errors=True)
-        r = subprocess.run(["patch", "-p1", "--no-backup-if-mismatch", "-i", patch],
-                           cwd=scratch, capture_output=True)
+        r = run_patch(patch, scratch)
         if r.returncode != 0:
             print("  ❌ patch 应用失败：")
             print("     " + r.stdout.decode("utf-8", "replace").strip()[:600])

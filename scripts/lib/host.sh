@@ -12,6 +12,11 @@
 #   linux     普通 Linux
 #   macos     macOS（BSDV userland：没有 grep -P / stat -c，bash 还是 3.2）
 #
+# ⚠️ bash 3.2 还有一个专属坑：**`$VAR` 后面紧跟非 ASCII 字符时，
+#    它会把这些字节当成变量名的一部分** → 报 "HOST_OS\xef...: unbound variable"。
+#    实测在 macOS CI 上就是这样挂的（本地 bash 5.2 永远复现不出来）。
+#    所以变量后面只要接中文标点，一律写 **${VAR}**。
+#
 # ⚠️ 本文件必须 **bash 3.2 兼容**（macOS 自带的就是 3.2）：
 #    不许用 declare -A / mapfile / ${v,,} / &> / [[ ]]
 # ═══════════════════════════════════════════════════════════════════════════
@@ -122,7 +127,7 @@ PY
 # 两种前缀都只剥第一段路径，结果一致；/dev/null（删除）要排掉。
 host_patch_files() {
   sed -n 's|^+++ ||p' "$1" 2>/dev/null \
-    | sed 's/\t.*//' \
+    | cut -f1 \
     | grep -v '^/dev/null$' \
     | sed 's|^[^/]*/||' \
     | grep -v '^$' \

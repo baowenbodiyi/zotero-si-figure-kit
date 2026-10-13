@@ -95,6 +95,9 @@ Zotero 插件跑在 **bootstrap Sandbox** 里；pdf.js 跑在**另一个模块 r
 | **Zotero 9.x 版本号在 `app\application.ini`** | `C:\Program Files\Zotero\application.ini` **不存在**；只查根目录会静默读到空版本 |
 | **Windows 上通常没有 `python3`** | 只有 `python`（或 `py`）。脚本里一律 `host_py`，别直接写 `python3` |
 | **macOS 自带 bash 3.2** | 没有 `declare -A` / `mapfile` / `${v,,}`；`stat -c` / `grep -P` / `sort -V` / `readlink -f` / `date -d` / `xargs -r` 也都没有。全部换成了 `host_*` 包装 + `lint_portable.sh` 守着 |
+| ⭐ **`$VAR` 后面紧跟中文标点，bash 3.2 会吞掉变量** | 它把多字节字符的字节当成变量名的一部分 → `HOST_OS\xef...: unbound variable`。**只在 macOS 上炸，本地 bash 5.2 永远复现不出来**（实测 macOS CI 上就是这么挂的）。变量后接非 ASCII 一律写 `${VAR}` |
+| **BSD `sed` 不认 `\t`** | 它把 `\t` 当字面字母 `t`。`sed 's/\t.*//'` 在 macOS 上会把 `addon/chrome/content/x` 截成 `addon/chrome/con`。改用 `cut -f1` |
+| **BSD `patch` 没有 `--no-backup-if-mismatch`** | 那是 GNU 专属选项，BSD patch 直接 "unknown option" 失败 → 表现为「macOS 上补丁永远打不上」。`check_overlay.py` 先探测 `patch --version` 里有没有 "GNU patch"，再兜一层「报 unknown option 就去掉重试」 |
 | **`ConvertTo-Json` 默认 `-Depth 2`** | 拿它改 Zotero 的 `extensions.json` 会把深层字段截成字符串 → Zotero 认为插件损坏并删掉它。改用 Node 的 `JSON.parse/stringify`（`patch_extensions.mjs`） |
 | **`ErrorActionPreference='Stop'` 会吃掉外部程序的 stderr** | `npm ci` 往 stderr 写 deprecated 警告 → PowerShell 当终止性错误 → **npm 装完了脚本却停在那**（日志只剩半行）。所有外部调用走 `Invoke-Native`，**按退出码判成败** |
 | **`$x = if (...) { @('ci') }` 会解包成字符串** | 单元素数组被解包，`+=` 数组时按 `$OFS` 拼接 → 粘成 `ci--no-audit` 传给 npm，报 `Unknown command`。必须显式逐项 `+=` |

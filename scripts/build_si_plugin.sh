@@ -27,7 +27,7 @@ for f in bootstrap.js si-cdp.js supplementary.js; do
   if [ -f "$JSDIR/$f" ]; then
     cp "$JSDIR/$f" "$WORK/$f"; echo "  覆盖 $f"
   else
-    echo "  缺 $f，跳过（基底里那份保持不变）"
+    echo "  缺 ${f}，跳过（基底里那份保持不变）"
   fi
 done
 
