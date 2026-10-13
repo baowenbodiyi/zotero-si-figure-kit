@@ -1,0 +1,250 @@
+Supporting Information
+Oxygen-Assisted Supercapacitive Swing Adsorption of Carbon Dioxide
+M. Bilal, J. Li, N. Kumar, B. Mosevitzky, I. E. Wachs, K. Landskron*
+
+
+Supporting Information
+Oxygen-Assisted Supercapacitive Swing Adsorption of Carbon Dioxide
+Muhammad Bilal, [a] Jiajie Li, [a] Neelesh Kumar, [b] Bar Mosevitzky, [b,c] Israel E. Wachs, [b] and Kai Landskron [a]*
+[a] Department of Chemistry, Lehigh University, 6 East Packer Avenue, Bethlehem, PA, 18015 *E-mail: kal205@lehigh.edu [b] Department of Chemical and Bioengineering, Lehigh University, 5 East Packer Avenue, Bethlehem, PA 18015 [c] Department of Chemical Sciences and Bernal Institute, University of Limerick, Limerick, V94 T9PX, Ireland
+
+
+Table S1 Energetics and adsorptive performance metrics with BPL electrodes and 3M MgBr2
+electrolyte. Energetic metrics include equivalent series resistance (ESR), specific capacitance
+(Cs), charging time without holding (tg), coulombic efficiency (ηc), energy efficiency (ηe),
+energy loss (J). Adsorptive metrics include average number of moles adsorbed and desorbed
+(n avg.), adsorption capacity (AC), adsorption rate (AR), productivity (P), charge efficiency (CE), and energy consumption (EC).
+Parameter Without Oxygen
+(0 to -1V)
+With Oxygen
+(0 to -1V)
+With Oxygen
+(-0.2 to -0.8V)
+With Oxygen
+(-0.2 to -0.6V)
+Energetic metrics
+ESR
+(Ω.cm2)
+Low E 8.04 ± 0.1 29.2 ± 4.1 8.77 ± 0.1 8.3 ± 0.2
+High E 8.24 ± 0.1 53.4 ± 2.3 15.4 ± 0.2 9.2 ± 0.1
+Charge Cs (F.g-1) 90.1 ± 0.8 1451 ± 438*
+(2033,1347, 974)
+249 ± 10.5 94.5 ± 0.4
+Discharge Cs
+(F.g-1)
+89.6± 0.2 541 ± 90*
+(638,521,465)
+154 ± 12.3 95.8 ± 0.3
+tg (s) 699 ± 6.2 11679 ± 3529 1173 ± 49.6 453 ± 1.1
+ηc (%) 97.2 ± 0.7 39.6 ±5.9 33.4 ± 0.2 88.0 ± 0.1
+ηe (%) 80.8 ± 0.7 7.01 ± 1.3 8.1 ± 0.3 67.3 ± 0.1
+ΔE (J) 4.07 ± 0.2 498 ± 151 190 ± 1.7 4.62 ± 0.1
+Adsorptive metrics
+n avg. adsorbed (μmol)
+50.9 ± 1.4 1220 ± 318 595 ± 5.1 54.0 ± 1.5
+
+
+n avg. desorbed, upper limit (μmol)
+(51.4 ± 1.1) - (593 ± 8.0) (54.6 ± 1.7)
+AC (mmol.kg-1) 64.9 ± 1.7 1590 ± 334 742 ± 63.1 66.3 ± 1.7
+AC (mmol.m-2) 16.4 ± 0.4 394 ± 102 191 ± 16.2 17.6 ± 0.5
+AC (mol.m-3) 23.5 ± 0.6 606 ± 158 273 ± 23.2 25.1 ± 0.7
+AR (μmol.kg-1.s-1) 40.9 ± 1.0 49.5 ± 6.2 120 ± 0.7 38.4 ± 1.0
+P (mmol.h-1.m-2) 14.6 ± 0.4 44.0 ± 7.8 111 ± 0.6 34.5 ± 1.0
+CE (_) 0.13 ± 0.0 0.17 ± 0.0 0.22 ± 0.0 0.17 ± 0.0
+EC (kJ.mol-1) 80.4 ± 1 485 ± 32.8 302 ± 1.7 85.0 ± 2.0
+* The much higher number of charge/discharge capacities at 1V in the presence of oxygen is
+due to faradaic reactions and does not refer to capacitance. The values in parentheses show
+declining charge and discharge capacities with cycling.
+
+
+Figure S1 Changes in CO2 concentration during SSA cycling from -0.2 to -0.8V with BPL
+electrodes and 3M MgBr2 electrolyte (a), Maximum integrated areas during incomplete sorption (b), integrated areas showing minimum moles desorbed (c).
+
+
+Table S2 Energetics and adsorptive performance metrics with BPL electrodes and 3M MgBr2 electrolyte from 11-13 cycles and from 96-98 cycles.
+Parameter Cycles 11-13 Cycles 96-98
+Energetic metrics
+ESR
+(Ω.cm2)
+at low V 21.0 30.7
+at high V 22.1 31.8
+Charge Cs (F.g-1) 92.5 85.5
+Discharge Cs (F.g-1) 92.8 86.9
+tg 444 411
+ηc (%) 86.9 87.1
+ηe (%) 66.2 64.0
+ΔE (J) 4.71 4.80
+Adsorptive metrics
+n avg. (μmol) 45.7 41.9
+AC (mmol.kg-1) 57.1 52.4
+AC (mmol.m-2) 14.1 13.5
+AC (mol.m-3) 21,2 19.3
+AR (μmol.kg-1.s-1) 34.7 32.5
+P (mmol.h-1.m-2) 32.3 30.2
+CE (_) 0.14 0.15
+EC (KJ.mol-1) 103 115
+
+
+Figure S2 Voltage and CO2 concentration changes (left) and energetics and adsorptive
+performance metrics (right) of BPL electrodes soaked in MgBr2. The electrodes maintain
+high capacitance and high CO2 sorption capacity without O2 after being charged/discharged
+in the presence of O2
+
+
+Figure S3 SSA experiments with BPL electrodes and 3M MgCl2 electrolyte. Voltage and CO2
+concentration changes from 0 to -1V without oxygen (a) and from 0 to -1V (b), -0.2 to -0.8V
+(c), 0 to -0.5V (d) with oxygen. SSA experiments at 1.2 V showing large irreversibility in the
+presence of 15% CO2/5% O2/80% N2 (e). CV curves at different voltage windows in the presence of 15% CO2/5% O2/80% N2 gas mixture (f).
+
+
+Figure S4 CO2 capture versus CO2 release comparison with 3M MgCl2 (a) and 3M MgBr2
+(b). Each data point represents an average of 3 adsorption-desorption cycle. For all SSA
+experiments, only the bottom electrode was soaked in the electrolyte and top electrode was kept dry.
+
+
+Table S3 Energetics and adsorptive performance metrics with BPL electrodes and 3M MgCl2
+electrolyte. The bold number in parentheses shows the number of moles of CO2 desorbed as the electrodes are discharged.
+Parameter Without Oxygen
+With Oxygen (0 to -1V)
+With Oxygen (-0.2 to -0.8)
+With Oxygen (0 to -0.5)
+Energetic metrics
+ESR
+(Ω.cm2)
+at low 9.16 14.3 12.3 15.2
+at high V 9.05 15.4 15.1 14.8
+Charge Cs (F.g-1) 78.6 109 89.8 86.4
+Discharge Cs (F.g-1) 78.7 114 90.01 86.0
+tg 679 870 429 344
+ηc (%) 97.5 57.2 58.7 87.7
+ηe (%) 80.3 22.0 30.1 53.4
+ΔE (J) 4.01 76.3 23.7 3.55
+Adsorptive metrics
+n avg. (μmol) 60.5 (68.1) 256 (297) 90.7 (100) 40.9 (30.3)
+AC (mmol.kg-1) 76.4 320 123 51.1
+AC (mmol.m-2) 19.7 82.6 31.8 13.2
+AC (mol.m-3) 17.9 118 45.5 18.1
+AR (μmol.kg-1.s-1) 31.5 71.6 34.2 13.0
+P (mmol.h-1.m-2) 14.6 66.5 28.5 12.0
+CE (_) 0.16 0.21 0.19 0.17
+EC (KJ.mol-1) 72.5 302 240 88.4
+
+
+Figure S5 Simultaneous CO2 and O2 concentration change measurements during charging and discharging of BPL electrodes soaked in 3 M MgBr2 at 1V (a), 0.6V (b), and 0.4V (c).
+
+
+Figure S6 Simultaneous CO2 and O2 concentration change measurements during charging
+and discharging of BPL electrodes soaked in 3 M MgCl2 at 1V (a), 0.8V (b), 0.6V (c), and 0.4V (d).
+
+
+Figure S7 N2 adsorption–desorption isotherm of GR-AC, showing type IV micromesoporous nature.
+
+
+Figure S8 SSA experiments with garlic roots derived carbon electrodes and 3M MgCl2
+electrolyte. Voltage and CO2 concentration changes from 0 to -1V without oxygen (a) and
+from 0 to -1V (b), -0.2 to -0.8 (c), 0 to -0.5 (d) 0 to -0.4V (e), 0 to -0.3V (f) with oxygen, respectively.
+
+
+Table S4 Energetics and adsorptive performance metrics with garlic roots derived electrodes
+and 3M MgCl2 electrolyte at different voltage holding times. The data is extracted from Figure S6b by using different voltage hold times.
+Parameter 0 min hold 30 min hold 60 min hold
+Energetic metrics
+ηc (%) 84.2 63.4 54.0
+ηe (%) 53.5 28.0 21.3
+ΔE (J) 16.1 48.0 69.0
+Adsorptive metrics
+n avg. adsorbed (μmol)
+n avg. desorbed, upper limit (μmol)
+139
+143
+266
+271
+313
+319
+AC (mmol.kg-1) 352 665 783
+AR (μmol.kg-1.s-1) 195 180 146
+EC (KJ.mol-1) 130 187 221
+
+
+Figure S9 Voltage and CO2 concentration changes at using 10% (a), 15% (b), and 20% O2 during SSA cycles.
+
+
+Table S5 Energetics and adsorptive performance metrics with garlic roots derived electrodes and 3M MgCl2 electrolyte at different oxygen concentrations.
+Gas composition 10% O2/15% CO2 15% O2/15% CO2 20% O2/15% CO2
+Energetic metrics
+ESR
+(Ω.cm2)
+at 0 V 10.5 9.6 12.2
+at -1 V 12.6 12.2 14.4
+Charge Cs (F.g-1) 186 187 166
+Discharge Cs (F.g-1) 171 170 162
+tg 1310 1313 1170
+ηc (%) 54.1 56.1 60.2
+ηe (%) 24.7 24.8 26.9
+ΔE (J) 50.2 48.4 42.8
+Adsorptive metrics
+n avg. (μmol) 216 (270) 195 (238) 217 (286)
+AC (mmol.kg-1) 541 488 543
+AC (mmol.m-2) 70.1 62.8 70.0
+AC (mol.m-3) 63.6 57.2 63.6
+AR (μmol.kg-1.s-1) 111 100 114
+P (mmol.h-1.m-2) 25.7 23.3 26.4
+CE (_) 0.26 0.24 0.28
+EC (KJ.mol-1) 232 250 213
+
+
+Table S6 Comparison of SSA with previous SSA studies and other recent electrochemical CO2 capture methods
+Method Description CO2 source Current density (mA.cm2)
+CO2 adsorption capacity (mmol/kg)
+Energy consumption (kJ.mol-1CO2)
+Operation mode
+SSA (this work)
+Capacitive charge/discharge captures/concentrates CO2
+15% CO2/5% O2/80% N2
+∼1.5 780 220 Cyclic
+40 35
+SSA[1] 20% CO2/5% O2/80% N2
+∼50 83 20
+SSA[2,3] 15% CO2/85% N2
+∼1 485 200
+MCDI[4] Membrane capacitive deionization
+15% CO2/85% N2
+∼0.1 ∼100 50 Cyclic
+BPMED[5
+]
+pH-swing by electrochemical water splitting
+0.5 M KHCO3
+20-140 NA 200-400 (desorption)
+Cyclic
+Redox active Quinone[6
+][7]
+Quinones in ionic liquid electrolyte
+15% CO2/85% N2
+∼1 0.8-1.3 μmolCO2/μ
+molquinone
+50-200 Cyclic
+PCET[8] pH-swing by proton coupled electron transfer
+10-50% CO2 balanced with N2
+20-150 1-2 mmol CO2/10 mL negolyte
+60-150 Cyclic
+Redox Tunable sp2-N[9]
+Redox tunable nitrogen centers in ionic liquid electrolyte
+15 % CO2/5 % O2/ 80% N2
+2 ∼0.3 mmol/20 mL sorbent
+156 Cyclic
+EMAR[10] Electrochemically mediated main regeneration
+15% CO2/85% N2
+2-12 0.1-0.6 molCO2/mol
+amine
+40-120 (desorption)
+Cyclic
+PSE[11] Porous solid electrolyte reactor
+14% CO2/86% N2
+0.5-500 NA 150-600 Continuous
+EDCS[12] Electrochemically driven CO2 separator
+400 ppm NA NA > 240 Continuous
+
+
+Figure S10 SSA cell designed for in-situ Raman spectroscopy (a), Raman spectra of the
+electrodes exposed to CO2/N2/O2 gas mixture at differnet voltages showing negligible differences.

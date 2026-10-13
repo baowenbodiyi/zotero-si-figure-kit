@@ -1,0 +1,147 @@
+{
+  "kit": "zotero-si-figure-kit",
+  "generated": "2026-10-12",
+  "what_it_is": "把 Zotero PDF 翻译插件的「支撑信息（SI）插图浮窗」等改动，在另一台机器上复刻出来所需的全部东西",
+  "versions": {
+    "patched_plugin": "2.4.8.67",
+    "build_tag": "2.4.8.67+nodrag",
+    "upstream_baseline": "windingwind/zotero-pdf-translate v2.4.8",
+    "verified_on_zotero": "9.0.6 (Windows + WSL2)",
+    "si_fetcher_plugin": "1.4.4"
+  },
+  "entrypoints": {
+    "step0_discover": "bash scripts/discover_env.sh",
+    "step1_patch": "bash scripts/apply_patch.sh",
+    "step2_deps": "bash scripts/setup_deps.sh",
+    "step3_verify_offline": "bash scripts/verify_all.sh",
+    "step4_build": "bash scripts/build_plugin.sh",
+    "step5_install": "bash scripts/install_plugin.sh",
+    "optional_si_plugin": "bash scripts/build_si_plugin.sh",
+    "optional_upstream": "bash scripts/fetch_upstream.sh",
+    "audit_secrets": "python3 scripts/audit_no_secrets.py",
+    "fetch_zotero": "bash scripts/fetch_zotero.sh [版本] [平台]"
+  },
+  "hardcoded_paths": {
+    "policy": "无。所有脚本先探测环境（conf/kit.conf），探测不到就打印手工步骤，不猜路径。",
+    "machine_specific_only_in": [
+      "conf/kit.conf  (由 discover_env.sh 在本机生成，不入库)",
+      "windows/*.ps1  (活体验证用的屏幕坐标，换机器必须重量)"
+    ]
+  },
+  "requires": {
+    "required": [
+      "node>=18",
+      "npm",
+      "bash",
+      "GNU patch"
+    ],
+    "optional": [
+      "unzip (打包 SI 插件)",
+      "python3+Pillow (额外交叉验证 / 重新生成 fixture)"
+    ],
+    "auto_installed": [
+      "parse5 (真 HTML5 解析器，段落间距测试必须)"
+    ],
+    "network_needed_for": [
+      "npm ci",
+      "git clone 上游(可选，包内已自带 v2.4.8)"
+    ],
+    "bundled": [
+      "Zotero 9.0.6 Windows x64 安装包（vendor/zotero/）"
+    ]
+  },
+  "contents": {
+    "plugins/translate/pristine-v2.4.8/": "上游 v2.4.8 源码副本（离线基线，便于自洽验证）",
+    "plugins/si-fetcher/": "SI 自动获取插件（JS 源 + 可安装 XPI）",
+    "tests/fixtures/": "自带真数据 fixture：含真 LZW-TIFF 的小 .docx、真 SI 全文、真译文样本、合成 RGBA、inflate 对拍数据",
+    "tests/*.js": "4 组离线验收（见 verification）",
+    "docs/交接手册_完整版.md": "原项目 1600+ 行记忆文档（所有细节、每轮需求与坑）",
+    "docs/SI获取流程.md": "SI 怎么从出版社拿到、挂进 Zotero，以及已知边界",
+    "evidence/": "活体验证截图（浮窗显示 Word SI 原图 / 段落间距修复前后）",
+    "vendor/zotero/Zotero-9.0.6_x64_setup.exe": {
+      "what": "官方 Zotero 9.0.6 Windows x64 安装包（未修改，仅搬运）",
+      "size_bytes": 95241152,
+      "sha256": "973bfc96a7af8b2949bbfdc46b220366b2b204942ac30d50aef9835eb152d31c",
+      "source_url": "https://download.zotero.org/client/release/9.0.6/Zotero-9.0.6_x64_setup.exe",
+      "downloaded": "2026-10-12",
+      "authenticode": {
+        "status": "Valid",
+        "signer": "CN=Corporation for Digital Scholarship, O=Corporation for Digital Scholarship, L=Vienna, S=Virginia, C=US",
+        "issuer": "CN=SSL.com EV Code Signing Intermediate CA RSA R3",
+        "thumbprint": "1667BFAB98EFEB0E290B9B9C8EFF503AD1CFD33D",
+        "timestamped": true
+      },
+      "why_this_version": "插件补丁只在 9.0.6 上做过活体验证；写包时官方稳定版已是 10.0.6，故钉住验证过的版本",
+      "license": "AGPL-3.0（Zotero）；分发的是官方未修改安装包",
+      "removable": "删掉 vendor/ 可让包从 ~90 MB 缩回 ~3.6 MB；scripts/fetch_zotero.sh 可现场下载"
+    },
+    "plugins/translate/zotero-pdf-translate-2.4.8.67-full.patch": "全部改动，39 个文件；patch -p1 打到上游 v2.4.8 上"
+  },
+  "verification": {
+    "offline_total_assertions": 147,
+    "how_to_run": "bash scripts/verify_all.sh",
+    "groups": [
+      {
+        "name": "译文渲染（段落间距）",
+        "file": "tests/test_renderspacing.js",
+        "assertions": 21,
+        "oracle": "真 HTML5 解析器 parse5 数 <br>；并把修复前写法复刻做 A/B"
+      },
+      {
+        "name": "SI 引用解析与图注定位",
+        "file": "tests/test_sirefs.js",
+        "assertions": 59,
+        "oracle": "真实 SI 全文 + 真实正文；真值由独立正则扫出"
+      },
+      {
+        "name": "PNG 编码器 / base64",
+        "file": "tests/test_pngencode.js",
+        "assertions": 13,
+        "oracle": "PIL 解回来比像素；Node Buffer 比 base64"
+      },
+      {
+        "name": "Word 版 SI（docx / TIFF / inflate / 端到端）",
+        "file": "tests/test_wordsi.js",
+        "assertions": 41,
+        "oracle": "PIL 比 TIFF 的 RGBA sha256；python zlib 比 inflate；真 .docx 端到端"
+      }
+    ],
+    "verified_externally": [
+      "活体：Word SI（13.5MB docx）解析 99ms，4 条引用全部配到正确图，浮窗显示原图",
+      "活体：划选不含 SI 引用的参考文献 → 浮窗自动收起",
+      "活体：点「打开 SI」→ 用系统默认程序打开 .docx（本机为 WPS Office）",
+      "活体：段落间距修复前后同段对比，最大段间空白 112px → 47px"
+    ],
+    "not_verified": [
+      "SI 的下载环节（需要联网 + 浏览器登录态，属另一个插件）",
+      "多文件 SI：目前只下第一个 mmc 链接（已知未修，见 docs/SI获取流程.md 遗留）",
+      "浮窗拖动/缩放/自动收起的自动化断言（仅人工活体验证）",
+      "Windows + WSL 以外的平台（补丁与离线测试应可用，安装脚本只覆盖 Windows/WSL）"
+    ]
+  },
+  "secrets_audit": {
+    "verdict": "包内无任何本机密钥/凭据；audit 脚本退出码 0",
+    "how_to_recheck": "python3 scripts/audit_no_secrets.py",
+    "method": "反查：收集本机真实凭据（~/.mimo_api_key、~/.github_pat、~/.mp_api_key、Zotero prefs 的 secretObj 全部子密钥），按整值 + 16 字符片段搜索待审目录；再补通用模式扫描（私钥块/AWS AKIA/GitHub PAT/sk-/Bearer/password 赋值）",
+    "result": {
+      "real_credentials_found": 0,
+      "upstream_defaultsecrets_seen": 10,
+      "note": "那 10 个是插件自带的 defaultSecret（上游公开仓库里就有，如 caiyun.ts 的 3975l6lr5pcbvidl6jl2），脚本会自动与上游源码比对识别，不算泄漏"
+    },
+    "removed_pii": "作者个人邮箱曾写死在 OpenAlex 请求（polite pool），已移除（2.4.8.67+nodrag）；补丁新增行的个人信息命中 = 0",
+    "residual": "docs/ 两份是原作者工作日志，含其机器路径与用户名；是上下文不是凭据，对外分发可删"
+  },
+  "key_pitfalls_digest": [
+    "realm：pdf.js 的模块 global 没有 navigator；跨 realm 必须 cloneInto；选项/类实例要在目标 realm 里造",
+    "插件 sandbox 里没有 canvas → 借阅读器窗口的 canvas；图片只能用 data: URL（file:// 被同源策略拒）",
+    "/mnt/c 是 9p：覆盖写会 Errno 22（先 rm）；且有写回延迟（写完要回读核对）",
+    "「文件里有」≠「跑的是它」：只有代码自己打的 BUILD_TAG 能证明运行时加载了哪份代码",
+    "日志本身曾静默丢行（读改写无排队，40 条并发只落 1 条）——验收标准依赖日志时这是致命的",
+    "docx 里的图是 LZW+Predictor2 的 TIFF，浏览器不能渲染；TIFF LZW 是 MSB-first 且 early change=1",
+    "HTML5 里 </br> 等于又一个 <br>：写 <br></br> 会让每个换行变两行",
+    "验 HTML5 行为必须用真 HTML5 解析器（lxml 是 HTML4，会得出相反结论）",
+    "图注与图配对：距离 2 必须要求中间段不是图注，否则没图的图注会抢走邻居的图",
+    "断言的真值必须来自独立实现（PIL/zlib/parse5/独立正则），不能拿被测代码自证",
+    "拖浮窗会拖动整个窗口：阅读器 `.toolbar` 是 `-moz-window-dragging: drag`（窗口级矩形，不管谁盖在上面）；浮窗要自己 setProperty('-moz-window-dragging','no-drag')，并把上边界卡在工具栏下方。查祖先链查不出来（浮窗是 toolbar 的兄弟节点），要按几何重叠判断"
+  ]
+}

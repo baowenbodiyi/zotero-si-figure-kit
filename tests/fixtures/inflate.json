@@ -1,0 +1,32 @@
+[
+ {
+  "name": "text",
+  "raw": 126,
+  "comp": 23
+ },
+ {
+  "name": "runs",
+  "raw": 8000,
+  "comp": 29
+ },
+ {
+  "name": "random",
+  "raw": 20000,
+  "comp": 414
+ },
+ {
+  "name": "empty",
+  "raw": 0,
+  "comp": 2
+ },
+ {
+  "name": "docxml",
+  "raw": 2376,
+  "comp": 676
+ },
+ {
+  "name": "zipentry",
+  "raw": 2376,
+  "comp": 676
+ }
+]

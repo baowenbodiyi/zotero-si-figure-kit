@@ -1,0 +1,142 @@
+{
+ "blocks": [
+  [
+   "p",
+   "Supporting Information"
+  ],
+  [
+   "p",
+   "Mini fixture for the SI figure pipeline (real LZW TIFF)."
+  ],
+  [
+   "p",
+   ""
+  ],
+  [
+   "p",
+   "Figure S1. (a) TEM image and (b) cycling stability of the sample. The scale bar is 2 um."
+  ],
+  [
+   "p",
+   "Figure S2. Replotted galvanostatic profiles (no image in this fixture)."
+  ],
+  [
+   "p",
+   "Table S1: Comparison of the investigated materials with reported data."
+  ],
+  [
+   "p",
+   "Table S2. Etching reaction between carbon and NaOH."
+  ],
+  [
+   "tbl",
+   [
+    [
+     "Sample",
+     "Capacity (mAh g-1)"
+    ],
+    [
+     "HC-1200",
+     "317\n400"
+    ],
+    [
+     "Na$_{2}$CO$_{3}$",
+     "with 0.42 cm3 g-1"
+    ]
+   ]
+  ]
+ ],
+ "tables": [
+  [
+   [
+    "Sample",
+    "Capacity (mAh g-1)"
+   ],
+   [
+    "HC-1200",
+    "317\n400"
+   ],
+   [
+    "Na$_{2}$CO$_{3}$",
+    "with 0.42 cm3 g-1"
+   ]
+  ]
+ ],
+ "n_paras": 8,
+ "media": [
+  "image1.tiff"
+ ],
+ "captions": {
+  "figure s1": {
+   "index": 3,
+   "caption": "Figure S1. (a) TEM image and (b) cycling stability of the sample. The scale bar is 2 um.",
+   "image": "image1.tiff",
+   "table": null
+  },
+  "figure s2": {
+   "index": 4,
+   "caption": "Figure S2. Replotted galvanostatic profiles (no image in this fixture).",
+   "image": null,
+   "table": null
+  },
+  "table s1": {
+   "index": 5,
+   "caption": "Table S1: Comparison of the investigated materials with reported data.",
+   "image": null,
+   "table": null
+  },
+  "table s2": {
+   "index": 6,
+   "caption": "Table S2. Etching reaction between carbon and NaOH.",
+   "image": null,
+   "table": [
+    [
+     "Sample",
+     "Capacity (mAh g-1)"
+    ],
+    [
+     "HC-1200",
+     "317\n400"
+    ],
+    [
+     "Na$_{2}$CO$_{3}$",
+     "with 0.42 cm3 g-1"
+    ]
+   ]
+  }
+ },
+ "tiff": {
+  "image1.tiff": {
+   "w": 1197,
+   "h": 598,
+   "compression": 5,
+   "predictor": 2,
+   "photometric": 2,
+   "spp": 4,
+   "rgba_sha256": "aa9ab78ebc2aa272d1dbf11274f74fe4a1633b8108dfbd0ec0d40f028afbb6ca",
+   "rgba_bytes": 2863224
+  }
+ },
+ "paragraph_texts": [
+  "Supporting Information",
+  "Mini fixture for the SI figure pipeline (real LZW TIFF).",
+  "",
+  "Figure S1. (a) TEM image and (b) cycling stability of the sample. The scale bar is 2 um.",
+  "Figure S2. Replotted galvanostatic profiles (no image in this fixture).",
+  "Table S1: Comparison of the investigated materials with reported data.",
+  "Table S2. Etching reaction between carbon and NaOH.",
+  "Sample Capacity (mAh g-1) HC-1200 317 400 Na$_{2}$CO$_{3}$ with 0.42 cm3 g-1"
+ ],
+ "paragraph_images": [
+  [],
+  [],
+  [
+   "image1.tiff"
+  ],
+  [],
+  [],
+  [],
+  [],
+  []
+ ]
+}
