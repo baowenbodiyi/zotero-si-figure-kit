@@ -1,0 +1,105 @@
+# ═══════════════════════════════════════════════════════════════════════════
+# 这套改动要能在 4 种宿主上复刻：WSL / Linux / macOS / Windows 原生。
+# 所以这里不是「跑一下测试」，而是**让机器证明这句话**：
+#
+#   overlay  补丁与覆盖层不能漂移（ubuntu 有 patch(1)，真的逐字节比对）
+#   lint     可移植性约束（bash 3.2、BSD 工具、.ps1 的 BOM…）
+#   linux    bash 路线（与 WSL 同构）
+#   macos    bash 路线，但 userland 是 BSD、bash 是 3.2 —— 最容易炸的那条
+#   windows  **原生 PowerShell 路线**：没有 WSL、没有 patch、没有 git
+#
+# 全部离线：147 项断言不需要 Zotero，也不需要联网（除了装依赖）。
+# ═══════════════════════════════════════════════════════════════════════════
+name: verify
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  # ── ① 补丁 ↔ 覆盖层 不能漂移 ──────────────────────────────────────────
+  overlay:
+    name: 覆盖层 == 补丁结果
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 逐字节比对（pristine+覆盖层 vs pristine+patch）
+        run: |
+          python3 scripts/lib/check_overlay.py \
+            plugins/translate/pristine-v2.4.8 \
+            plugins/translate/zotero-pdf-translate-2.4.8.67-full.patch \
+            plugins/translate/patched-2.4.8.67
+
+  # ── ② 可移植性 lint（不装 Node，秒级） ────────────────────────────────
+  lint:
+    name: 可移植性 lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash scripts/lib/lint_portable.sh
+
+  # ── ③ bash 路线：Linux + macOS ────────────────────────────────────────
+  verify-bash:
+    name: bash 路线 (${{ matrix.os }})
+    needs: [lint]
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: 准备源码（覆盖层，不需要 patch）
+        run: bash scripts/prepare_src.sh
+      - name: 装依赖
+        run: bash scripts/setup_deps.sh
+      - name: 离线验收（147 项断言）
+        run: bash scripts/verify_all.sh
+
+  # ── ④ Windows 原生路线：没有 WSL / patch / git，只有 Node ─────────────
+  verify-windows-native:
+    name: Windows 原生 (PowerShell)
+    needs: [lint]
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # 先证明「这台机器上确实没有 patch / git」——
+      # 否则这条 job 可能只是碰巧因为有 patch 才过
+      - name: 记录本机工具链（证明真的没有 patch/git）
+        shell: powershell
+        run: |
+          foreach ($c in 'node','npm','npx','patch','git') {
+            $g = Get-Command $c -ErrorAction SilentlyContinue
+            if ($g) { "  $c -> $($g.Source)" } else { "  $c -> (无)" }
+          }
+
+      # ⚠️ 用 powershell（5.1），不用 pwsh（7）：
+      #    5.1 是 Windows 用户机器上最常见的那个，也是作者本机验证过的那个版本。
+      - name: 环境探测
+        shell: powershell
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File scripts/windows-native/discover_env.ps1
+
+      - name: 准备源码（覆盖层路线）
+        shell: powershell
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File scripts/windows-native/go.ps1 -Step prepare
+
+      - name: 装依赖（npm ci + parse5）
+        shell: powershell
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File scripts/windows-native/go.ps1 -Step deps
+
+      - name: 构建 + 校验产物里的 BUILD_TAG
+        shell: powershell
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File scripts/windows-native/go.ps1 -Step build
+
+      - name: 离线验收（147 项断言）
+        shell: powershell
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File scripts/windows-native/go.ps1 -Step verify

@@ -20,7 +20,7 @@
 | 补丁后版本 | `2.4.8.67`，构建标记 `2.4.8.67+nodrag` |
 | 需要联网 | **只有两步**：装 npm 依赖、`git clone` 上游（后者可选，已自带副本） |
 | **附带的 Zotero** | ✅ **`vendor/zotero/Zotero-9.0.6_x64_setup.exe`**（官方原件，已验证 Authenticode 签名；见 `vendor/zotero/README.md`） |
-| 离线可验 | ✅ **134 项断言全部离线跑**，不需要 Zotero、不需要论文 PDF |
+| 离线可验 | ✅ **147 项断言全部离线跑**（21+59+13+54），不需要 Zotero、不需要论文 PDF |
 
 **它做什么**
 
@@ -38,17 +38,44 @@
 
 | 依赖 | 必需？ | 说明 |
 |---|---|---|
-| Node.js + npm | ✅ 必需 | 构建插件。**实测 Node 24**；建议 ≥18 |
-| bash | ✅ 必需 | 所有脚本；Windows 上请在 **WSL / Git Bash** 里跑 |
-| `patch` | ✅ 必需 | 打补丁（GNU patch） |
-| `unzip` | 打包 SI 插件时需要 | 其余步骤不需要 |
-| python3 | 可选 | 有则：PNG 交叉验证多一层（PIL）；重新生成 fixture 时需要 |
-| Python `PIL` | 可选 | 同上 |
+| **Node.js + npm** | ✅ **唯一硬依赖** | 构建插件。**实测 Node 24**；建议 ≥18 |
+| bash | 用 bash 路线时 | WSL / Linux / macOS / Git-Bash |
+| PowerShell | 用 Windows 原生路线时 | 系统自带 5.1 即可，**不需要 PowerShell 7** |
+| `patch` | ❌ **不需要了** | 补丁结果已摊成覆盖层；有 `patch` 的机器会用它**交叉校验**覆盖层没漂移 |
+| `git` | ❌ 不需要 | 上游 v2.4.8 已自带副本；只有你要换基线时才需要 |
+| python3 / `python` | 可选 | 环境探测时读 JSON；`check_overlay.py` 用它比对。有 Python 时多一层校验 |
+| Python `PIL` | 可选 | PNG/TIFF 交叉验证多一层独立实现 |
 | `parse5` | 自动装 | 段落间距测试必须用**真 HTML5 解析器**（`setup_deps.sh` 会装） |
-| Zotero | ✅ 包内已带 | Windows x64 官方安装包（9.0.6）；其它平台用 `scripts/fetch_zotero.sh` |
+| Zotero | 装插件时必需 | 包内已带 Windows x64 官方安装包（9.0.6）；其它平台用 `scripts/fetch_zotero.sh` |
 
 > 补丁与**全部离线验收**不依赖 Zotero、不依赖任何论文 PDF —— 所以你可以先在本机把
 > 逻辑全验一遍，再决定要不要装进 Zotero。
+
+---
+
+## 1.5 ⭐ 你是哪种宿主？先看这张表
+
+这套东西最初只在 **Windows + WSL** 上跑通过。为了让别人也能复刻，做了宿主适配层
+（`scripts/lib/host.sh`）和一条 Windows 原生路线。**四种宿主都有对应入口：**
+
+| 你的环境 | 入口 | 一句话 |
+|---|---|---|
+| **Windows + WSL** | `bash scripts/*.sh` | 原作者的路线，全通 |
+| **Linux** | `bash scripts/*.sh` | 同 WSL（少几个 9p 相关的等待） |
+| **macOS** | `bash scripts/*.sh` | 已处理 BSD userland 与 **bash 3.2** 的差异（`stat -c`/`grep -P`/`sort -V`/`declare -A` 全部换掉了） |
+| **Windows 原生（没装 WSL）** | `powershell -File .\scripts\windows-native\go.ps1 -Step all` | ⭐ 见 `scripts/windows-native/README.md` |
+
+**为什么 Windows 原生要单独一套**：那台机器上实测 **没有 `patch`、没有 `git`**，
+而原来的第一步就是 `patch`。所以把补丁结果预先摊成了
+`plugins/translate/patched-2.4.8.67/` 覆盖层 —— `prepare` 只是「复制上游 + 盖上覆盖层」，
+**任何平台都不再需要 `patch`**。
+
+> 覆盖层和补丁不是两处独立事实：`scripts/lib/check_overlay.py` 会逐字节比对两者，
+> CI 每次跑（`.github/workflows/verify.yml`），防止它们漂移。
+
+**这四个平台不是"我说支持"**：CI 在 `ubuntu-latest` / `macos-latest` /
+`windows-latest`（PowerShell 路线）各跑一遍全部离线断言。macOS 我没有真机，
+所以那里的结论**来自 CI，不是我本机实测** —— 这条边界请照抄。
 
 ---
 
@@ -69,9 +96,10 @@ bash scripts/discover_env.sh
 #   验收：打印出你机器上的 ZOTERO_DIR / PROFILE_DIR / DATA_DIR / Zotero 版本
 #   探测不到也没关系 —— 只有"装进 Zotero"那一步需要它们
 
-# ── 步骤 1：把补丁打到上游源码上（用包内自带的 v2.4.8 副本，离线可做）
-bash scripts/apply_patch.sh
-#   验收：✅ 补丁涉及的文件全部就位（39 个）
+# ── 步骤 1：准备源码树（上游 v2.4.8 + 覆盖层；**不需要 patch**）
+bash scripts/prepare_src.sh
+#   验收：✅ 覆盖层 == 补丁结果（逐字节）      ← 有 patch(1) 的机器会真比对，没有则跳过
+#         ✅ 补丁涉及的文件全部就位（39 个）
 #         package.json version = 2.4.8.67   BUILD_TAG = 2.4.8.67+nodrag
 
 # ── 步骤 2：装依赖（唯一必须联网的一步）
@@ -81,8 +109,7 @@ bash scripts/setup_deps.sh
 
 # ── 步骤 3：⭐ 全部离线验收（不需要 Zotero！）
 bash scripts/verify_all.sh
-#   验收：✅ 全部离线验收通过
-#         段落间距 21 / SI 定位 59 / PNG 13 / Word SI 41  ——  0 失败
+#   验收：✅ 全部离线验收通过（项数见 §5 的表）
 
 # ── 步骤 4：构建 XPI（先类型检查，再打包，最后校验产物里的构建标记）
 bash scripts/build_plugin.sh
@@ -93,6 +120,14 @@ bash scripts/install_plugin.sh
 #   验收：✅ 启动标记已确认：build=2.4.8.67+nodrag
 #   （脚本核对的是"运行时真的加载了这份代码"，不是"文件拷过去了"）
 ```
+
+**Windows 原生（没装 WSL）** 把上面 1–5 步换成一条：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\windows-native\go.ps1 -Step all
+```
+
+细节与四个 Windows 专属坑见 `scripts/windows-native/README.md`。
 
 **装不上 / 只是想看代码？** 步骤 0–4 就够了 —— 补丁、构建、全部测试都不碰 Zotero。
 第 5 步失败时脚本会打印手工安装步骤，而不是硬猜路径。
@@ -128,23 +163,41 @@ zotero-si-figure-kit/
 ├── README.md                  ← 你正在读的（步骤 + 验收）
 ├── HANDBOOK.md                ← 交接手册：架构、全部实测坑、为什么这么做
 ├── MANIFEST.json              ← 机读清单（版本/文件/依赖/验证状态）
+├── LICENSE                    ← AGPL-3.0（衍生自上游，见 §7）
+├── .github/workflows/         ⭐ CI：ubuntu / macos / windows 三平台各跑一遍离线断言
+│   └── verify.yml                 + 覆盖层↔补丁一致性 + 可移植性 lint
 ├── conf/kit.conf              ← discover_env.sh 生成（本机路径）
 ├── scripts/
+│   ├── lib/                   ⭐ 宿主适配层（4 种宿主的差异全关在这里）
+│   │   ├── host.sh               平台探测 / host_size / host_sha256 / host_py /
+│   │   │                         host_latest / Zotero 查-关-开（分平台）
+│   │   ├── check_overlay.py      「覆盖层 == 补丁结果」逐字节校验（防漂移）
+│   │   └── lint_portable.sh      可移植性 lint（bash 3.2 / BSD 工具 / .ps1 的 BOM）
 │   ├── discover_env.sh        探测 Zotero/node/python → 写 conf/kit.conf
-│   ├── apply_patch.sh         上游 v2.4.8 + 补丁 → work/translate
+│   ├── prepare_src.sh         上游 v2.4.8 + 覆盖层 → work/translate（**不需要 patch**）
 │   ├── setup_deps.sh          npm ci + parse5（唯一需要联网）
-│   ├── verify_all.sh          ⭐ 一键跑完 4 组离线验收
+│   ├── verify_all.sh          ⭐ 一键跑完全部离线验收
 │   ├── build_plugin.sh        tsc + 打包 + 校验产物里的构建标记
-│   ├── install_plugin.sh      装进 Zotero + 校验"运行时真的加载了"
+│   ├── install_plugin.sh      装进 Zotero + 校验"运行时真的加载了"（分平台）
 │   ├── build_si_plugin.sh     打包 SI 自动获取插件（可选）
 │   ├── fetch_zotero.sh        下载 Zotero 安装包（包内已带 9.0.6，此为备用/换版本）
 │   ├── audit_no_secrets.py    ⭐ 分发前自检：反查本机真实凭据是否被夹带
-│   └── fetch_upstream.sh      从 GitHub 拉上游 v2.4.8（可选，包内已自带）
+│   ├── fetch_upstream.sh      从 GitHub 拉上游 v2.4.8（可选，包内已自带）
+│   └── windows-native/        ⭐ Windows 原生路线（无 WSL / 无 patch / 无 git）
+│       ├── README.md             为什么需要它 + 四个 Windows 专属坑
+│       ├── go.ps1                唯一入口：-Step discover|prepare|deps|build|verify|install|all
+│       ├── discover_env.ps1      探测环境（含 app\application.ini 的版本号坑）
+│       ├── prepare_src.ps1       覆盖层路线（robocopy + 落盘校验）
+│       ├── build_plugin.ps1      tsc + 打包 + 从 XPI 里读回 BUILD_TAG
+│       ├── verify.ps1            全部离线验收
+│       ├── install_plugin.ps1    装进 Zotero + 等启动标记
+│       └── patch_extensions.mjs  改 extensions.json（避开 ConvertTo-Json 的 -Depth 坑）
 ├── vendor/zotero/            ⭐ 官方 Zotero 9.0.6 Windows 安装包（90.8 MB，已验证签名）
 │   │                            含来源 URL / sha256 / 签名指纹；不需要可整目录删掉
 ├── plugins/
 │   ├── translate/
-│   │   ├── zotero-pdf-translate-2.4.8.67-full.patch   ← 全部改动
+│   │   ├── zotero-pdf-translate-2.4.8.67-full.patch   ← 全部改动（人读的"真相"）
+│   │   ├── patched-2.4.8.67/                          ⭐ 补丁结果覆盖层（39 文件，给没有 patch 的机器）
 │   │   └── pristine-v2.4.8/                           ← 上游副本（离线基线）
 │   └── si-fetcher/            SI 自动获取插件（JS + 可安装 XPI）
 ├── tests/
@@ -209,14 +262,14 @@ python3 scripts/audit_no_secrets.py
 
 ## 5. 这个包**验过什么 / 没验什么**（请照抄这个边界，不要替我扩大）
 
-### ✅ 离线已验证（134 项断言，任何机器可重跑）
+### ✅ 离线已验证（147 项断言，任何机器可重跑）
 
 | 组 | 项数 | 对拍对象（都是**独立实现**，不是拿被测代码自证） |
 |---|---|---|
 | 译文渲染 | 21 | **真 HTML5 解析器 parse5** 数 `<br>`；并把"修复前写法"复刻做 A/B |
 | SI 定位 | 59 | 真实 SI 全文 + 真实正文；真值由独立正则扫出 |
 | PNG 编码 | 13 | **PIL** 解回来比像素；Node `Buffer` 比 base64 |
-| Word SI | 41 | **PIL** 比 TIFF 的 RGBA sha256；**python zlib** 比 inflate；真 `.docx` |
+| Word SI | 54 | **PIL** 比 TIFF 的 RGBA sha256；**python zlib** 比 inflate；真 `.docx` |
 
 `SKIP` 的小节表示本机没有那类真数据 —— **不是失败**，且同一代码路径已被 fixture 覆盖。
 
@@ -227,8 +280,22 @@ python3 scripts/audit_no_secrets.py
 - **多文件 SI**：`supplementary.js` 目前只下**第一个** `mmc` 链接；
   一篇同时有 `mmc1.docx` + `mmc2.pdf` 时只会挂第一个。**已知未修**（改动很小，见 `docs/SI获取流程.md`）。
 - **浮窗的拖动/缩放/自动收起**：需要真人在 Zotero 里操作验证（原机器已验，见 `evidence/`）。
-- **跨平台**：只在 **Windows + WSL** 上真跑过。Linux/macOS 上补丁与离线测试应当可用，
-  但"装进 Zotero"的脚本只覆盖 Windows/WSL 路径，其它平台请手工装 XPI。
+- **macOS**：我**没有真机**。GNU-only 写法（`stat -c` / `grep -P` / `sort -V` /
+  `declare -A`）已经全部换掉，并有 `lint_portable.sh` 守着，但结论**来自 CI，不是我本机实测**。
+- **装进 Zotero 之后的"活体验证"**（浮窗拖动、抓 SI、出版社登录态）：只有原作者那一台
+  Windows+WSL 机器上验过。别的平台上装机脚本能跑通、能确认 `BUILD_TAG` 加载，
+  但浮窗交互没人替你验过。
+
+### ✅ 平台支持（这条是 CI 跑的，不是我说的）
+
+| 宿主 | 路线 | 谁验的 |
+|---|---|---|
+| Windows + WSL | `bash scripts/*.sh` | ✅ 作者本机全链路（prepare→deps→build→verify，147 项） |
+| Linux | `bash scripts/*.sh` | ✅ CI `ubuntu-latest` |
+| macOS | `bash scripts/*.sh` | ✅ CI `macos-latest` |
+| Windows 原生（无 WSL） | `scripts/windows-native/go.ps1` | ✅ 作者本机真跑 + CI `windows-latest` |
+
+外加两项 CI 守卫：**覆盖层 ↔ 补丁逐字节一致**、**可移植性 lint**。
 
 ---
 

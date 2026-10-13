@@ -14,6 +14,8 @@
 #   https://download.zotero.org/client/release/9.0.6/Zotero-9.0.6_linux-x86_64.tar.xz  103,967,044 字节
 set -euo pipefail
 HERE="$(cd "$(dirname "$0")/.." && pwd)"
+# shellcheck source=lib/host.sh
+. "$HERE/scripts/lib/host.sh"
 VER="${1:-9.0.6}"
 PLAT="${2:-win-x64}"
 
@@ -27,22 +29,25 @@ URL="https://download.zotero.org/client/release/${VER}/${FILE}"
 OUT="$HERE/vendor/zotero/$FILE"
 
 # 已知版本的哈希（只钉我们验证过的那一个）
-declare -A KNOWN=(
-  ["9.0.6/Zotero-9.0.6_x64_setup.exe"]="973bfc96a7af8b2949bbfdc46b220366b2b204942ac30d50aef9835eb152d31c"
-)
-WANT="${KNOWN["$VER/$FILE"]:-}"
+# ⚠️ 这里**故意不用 `declare -A`** —— macOS 自带的是 bash 3.2，关联数组要 4.0+，
+#    用了它脚本在 Mac 上会直接语法报错。case 语句哪都有。
+WANT=""
+case "$VER/$FILE" in
+  "9.0.6/Zotero-9.0.6_x64_setup.exe")
+    WANT="973bfc96a7af8b2949bbfdc46b220366b2b204942ac30d50aef9835eb152d31c" ;;
+esac
 
 mkdir -p "$HERE/vendor/zotero"
 if [ -f "$OUT" ] && [ -n "$WANT" ] && \
-   [ "$(sha256sum "$OUT" | cut -d' ' -f1)" = "$WANT" ]; then
+   [ "$(host_sha256 "$OUT")" = "$WANT" ]; then
   echo "已存在且哈希正确，跳过下载：$OUT"; exit 0
 fi
 
 echo "下载 $URL"
 curl -L --fail --max-time 900 -o "$OUT.part" "$URL"
 mv "$OUT.part" "$OUT"
-GOT="$(sha256sum "$OUT" | cut -d' ' -f1)"
-echo "  大小   $(stat -c%s "$OUT") 字节"
+GOT="$(host_sha256 "$OUT")"
+echo "  大小   $(host_size "$OUT") 字节"
 echo "  sha256 $GOT"
 
 if [ -n "$WANT" ]; then

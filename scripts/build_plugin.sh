@@ -5,8 +5,10 @@
 #    所以必须先 `tsc --noEmit`，否则类型错误会静默打进产物。
 set -euo pipefail
 HERE="$(cd "$(dirname "$0")/.." && pwd)"
+# shellcheck source=lib/host.sh
+. "$HERE/scripts/lib/host.sh"
 SRC="$HERE/work/translate"
-[ -d "$SRC/src" ] || { echo "❌ 先跑 bash scripts/apply_patch.sh"; exit 1; }
+[ -d "$SRC/src" ] || { echo "❌ 先跑 bash scripts/prepare_src.sh"; exit 1; }
 
 export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HERE/.cache}"
 
@@ -23,9 +25,10 @@ XPI="$SRC/build/translate-for-zotero.xpi"
 echo "== 3/3 校验产物里真有本次源码的构建标记 =="
 # 为什么必须验：曾出现「磁盘上的 XPI 有新代码、AddonManager 也报新版本，
 # 但运行时跑的还是旧逻辑」。让产物自己说出 BUILD_TAG，是唯一可靠的判据。
-TAG="$(grep -oP 'BUILD_TAG = "\K[^"]+' "$SRC/src/utils/debugLog.ts")"
-VER="$(python3 -c "import json;print(json.load(open('$SRC/package.json'))['version'])")"
-python3 - "$XPI" "$TAG" "$VER" <<'PY'
+TAG="$(host_build_tag "$SRC/src/utils/debugLog.ts")"
+[ -n "$TAG" ] || { echo "❌ 从 $SRC/src/utils/debugLog.ts 读不到 BUILD_TAG"; exit 1; }
+VER="$(host_py -c "import json;print(json.load(open('$SRC/package.json'))['version'])")"
+host_py - "$XPI" "$TAG" "$VER" <<'PY'
 import re, sys, zipfile
 xpi, tag, ver = sys.argv[1], sys.argv[2], sys.argv[3]
 z = zipfile.ZipFile(xpi)

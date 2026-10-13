@@ -1,6 +1,6 @@
 {
   "kit": "zotero-si-figure-kit",
-  "generated": "2026-10-12",
+  "generated": "2026-10-13",
   "what_it_is": "把 Zotero PDF 翻译插件的「支撑信息（SI）插图浮窗」等改动，在另一台机器上复刻出来所需的全部东西",
   "versions": {
     "patched_plugin": "2.4.8.67",
@@ -11,7 +11,7 @@
   },
   "entrypoints": {
     "step0_discover": "bash scripts/discover_env.sh",
-    "step1_patch": "bash scripts/apply_patch.sh",
+    "step1_patch": "bash scripts/prepare_src.sh",
     "step2_deps": "bash scripts/setup_deps.sh",
     "step3_verify_offline": "bash scripts/verify_all.sh",
     "step4_build": "bash scripts/build_plugin.sh",
@@ -19,7 +19,12 @@
     "optional_si_plugin": "bash scripts/build_si_plugin.sh",
     "optional_upstream": "bash scripts/fetch_upstream.sh",
     "audit_secrets": "python3 scripts/audit_no_secrets.py",
-    "fetch_zotero": "bash scripts/fetch_zotero.sh [版本] [平台]"
+    "fetch_zotero": "bash scripts/fetch_zotero.sh [版本] [平台]",
+    "windows_native_all": "powershell -ExecutionPolicy Bypass -File .\\scripts\\windows-native\\go.ps1 -Step all",
+    "windows_native_steps": "go.ps1 -Step discover|prepare|deps|build|verify|install",
+    "guard_overlay_consistency": "python3 scripts/lib/check_overlay.py <pristine> <patch> <overlay>",
+    "guard_portable_lint": "bash scripts/lib/lint_portable.sh",
+    "host_selfcheck": "bash scripts/lib/host.sh"
   },
   "hardcoded_paths": {
     "policy": "无。所有脚本先探测环境（conf/kit.conf），探测不到就打印手工步骤，不猜路径。",
@@ -31,13 +36,14 @@
   "requires": {
     "required": [
       "node>=18",
-      "npm",
-      "bash",
-      "GNU patch"
+      "npm"
     ],
     "optional": [
-      "unzip (打包 SI 插件)",
-      "python3+Pillow (额外交叉验证 / 重新生成 fixture)"
+      "python3 / python（环境探测读 JSON；check_overlay.py 交叉校验覆盖层）",
+      "patch(1)（**不再是必需**：有它就会额外做一次「覆盖层 == 补丁结果」的逐字节比对）",
+      "git（只有要换上游基线时才需要；上游 v2.4.8 已自带）",
+      "unzip（打包 SI 插件）",
+      "python3+Pillow（额外交叉验证 / 重新生成 fixture）"
     ],
     "auto_installed": [
       "parse5 (真 HTML5 解析器，段落间距测试必须)"
@@ -48,6 +54,11 @@
     ],
     "bundled": [
       "Zotero 9.0.6 Windows x64 安装包（vendor/zotero/）"
+    ],
+    "shell": "二选一：bash（WSL/Linux/macOS/Git-Bash）或 Windows PowerShell 5.1（原生路线）",
+    "not_needed_anymore": [
+      "patch(1) —— 补丁结果已摊成 plugins/translate/patched-2.4.8.67/ 覆盖层",
+      "git —— 上游副本已自带"
     ]
   },
   "contents": {
@@ -75,7 +86,11 @@
       "license": "AGPL-3.0（Zotero）；分发的是官方未修改安装包",
       "removable": "删掉 vendor/ 可让包从 ~90 MB 缩回 ~3.6 MB；scripts/fetch_zotero.sh 可现场下载"
     },
-    "plugins/translate/zotero-pdf-translate-2.4.8.67-full.patch": "全部改动，39 个文件；patch -p1 打到上游 v2.4.8 上"
+    "plugins/translate/zotero-pdf-translate-2.4.8.67-full.patch": "全部改动，39 个文件；patch -p1 打到上游 v2.4.8 上",
+    "plugins/translate/patched-2.4.8.67/": "⭐ 补丁结果的覆盖层（39 文件 = 31 改 + 8 新增）：prepare 只做「复制上游 + 盖覆盖层」，所以任何平台都不需要 patch(1)。与补丁的一致性由 check_overlay.py 逐字节守着（CI 每次跑）",
+    "scripts/lib/host.sh": "宿主适配层：wsl/linux/macos/windows 的差异（进程查-关-开、文件大小、sha256、python、版本排序）全关在这里",
+    "scripts/windows-native/": "Windows 原生路线（无 WSL）：go.ps1 入口 + discover/prepare/build/verify/install + patch_extensions.mjs",
+    ".github/workflows/verify.yml": "CI：覆盖层一致性 + 可移植性 lint + ubuntu/macos/windows 三平台各跑 147 项离线断言"
   },
   "verification": {
     "offline_total_assertions": 147,
@@ -116,8 +131,11 @@
       "SI 的下载环节（需要联网 + 浏览器登录态，属另一个插件）",
       "多文件 SI：目前只下第一个 mmc 链接（已知未修，见 docs/SI获取流程.md 遗留）",
       "浮窗拖动/缩放/自动收起的自动化断言（仅人工活体验证）",
-      "Windows + WSL 以外的平台（补丁与离线测试应可用，安装脚本只覆盖 Windows/WSL）"
-    ]
+      "Windows + WSL 以外的平台（补丁与离线测试应可用，安装脚本只覆盖 Windows/WSL）",
+      "macOS：作者无真机，结论来自 CI（GNU-only 写法已全部替换并有 lint 守着）",
+      "装机之后的活体交互（浮窗拖动/缩放、抓 SI、出版社登录态）：只在作者那台 Windows+WSL 上验过"
+    ],
+    "platform_matrix": "见 platforms 字段"
   },
   "secrets_audit": {
     "verdict": "包内无任何本机密钥/凭据；audit 脚本退出码 0",
@@ -143,5 +161,34 @@
     "图注与图配对：距离 2 必须要求中间段不是图注，否则没图的图注会抢走邻居的图",
     "断言的真值必须来自独立实现（PIL/zlib/parse5/独立正则），不能拿被测代码自证",
     "拖浮窗会拖动整个窗口：阅读器 `.toolbar` 是 `-moz-window-dragging: drag`（窗口级矩形，不管谁盖在上面）；浮窗要自己 setProperty('-moz-window-dragging','no-drag')，并把上边界卡在工具栏下方。查祖先链查不出来（浮窗是 toolbar 的兄弟节点），要按几何重叠判断"
-  ]
+  ],
+  "platforms": {
+    "windows_wsl": {
+      "entry": "bash scripts/*.sh",
+      "verified_by": "作者本机全链路（prepare→deps→build→verify，147 项全过）"
+    },
+    "linux": {
+      "entry": "bash scripts/*.sh",
+      "verified_by": "CI ubuntu-latest"
+    },
+    "macos": {
+      "entry": "bash scripts/*.sh",
+      "verified_by": "CI macos-latest（作者无 Mac 真机 —— 结论来自 CI）"
+    },
+    "windows_native": {
+      "entry": ".\\scripts\\windows-native\\go.ps1",
+      "verified_by": "作者本机真跑（无 WSL/patch/git）+ CI windows-latest"
+    },
+    "ci_guards": [
+      "覆盖层 == 补丁结果（逐字节）",
+      "可移植性 lint（bash 3.2 / BSD 工具 / .ps1 的 BOM）",
+      "三平台各跑一遍 147 项离线断言"
+    ],
+    "portability_notes": [
+      "所有 GNU-only 写法已替换：stat -c → host_size；grep -P → sed；sort -V → host_latest；",
+      "python3 → host_py（Windows 上通常只有 python）；sha256sum → host_sha256（macOS 用 shasum）",
+      "macOS 自带 bash 3.2，所以脚本里不用 declare -A / mapfile / ${v,,}",
+      ".ps1 一律 UTF-8 with BOM（否则 PowerShell 5.1 按 ANSI 解析中文注释）"
+    ]
+  }
 }

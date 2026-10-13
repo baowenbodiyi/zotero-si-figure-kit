@@ -1,3 +1,7 @@
+  # Python 缓存（tests/gen_fixtures.py 跑过就会留）
+__pycache__/
+*.pyc
+
 # 构建产物 / 依赖 / 本机配置 —— 都不该进 git
 work/
 node_modules/

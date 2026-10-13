@@ -1,1 +1,1 @@
-{"name":"zpt-kit-tests","private":true,"type":"commonjs"}
+{"name":"zpt-kit-tests","private":true,"type":"commonjs","dependencies":{"parse5":"^8.0.1"}}

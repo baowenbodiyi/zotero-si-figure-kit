@@ -5,7 +5,7 @@ set -euo pipefail
 HERE="$(cd "$(dirname "$0")/.." && pwd)"
 SRC="$HERE/work/translate"
 
-[ -d "$SRC" ] || { echo "❌ 先跑 bash scripts/apply_patch.sh"; exit 1; }
+[ -d "$SRC" ] || { echo "❌ 先跑 bash scripts/prepare_src.sh"; exit 1; }
 
 echo "== npm ci（插件构建依赖）=="
 cd "$SRC"

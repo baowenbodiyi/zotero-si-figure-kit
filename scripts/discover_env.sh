@@ -11,6 +11,8 @@
 set -uo pipefail
 
 HERE="$(cd "$(dirname "$0")/.." && pwd)"
+# shellcheck source=lib/host.sh
+. "$HERE/scripts/lib/host.sh"
 CONF="$HERE/conf/kit.conf"
 SHOW_ONLY=0
 [ "${1:-}" = "--show" ] && SHOW_ONLY=1
@@ -90,7 +92,7 @@ fi
 # ───────────────────────── 数据目录：优先读 prefs.js 里的 dataDir
 DATA_DIR="${ZOTERO_DATA:-}"
 if [ -z "$DATA_DIR" ] && [ -n "$PROFILE_DIR" ] && [ -f "$PROFILE_DIR/prefs.js" ]; then
-  DATA_DIR="$(python3 - "$PROFILE_DIR/prefs.js" <<'PY' 2>/dev/null || true
+  DATA_DIR="$(host_py - "$PROFILE_DIR/prefs.js" <<'PY' 2>/dev/null || true
 import re, sys
 try:
     s = open(sys.argv[1], encoding="utf8", errors="replace").read()
@@ -118,7 +120,7 @@ esac
 # ───────────────────────── 工具链
 NODE="$(command -v node || true)"
 NPM="$(command -v npm || true)"
-PY="$(command -v python3 || true)"
+PY="${HOST_PY:-}"      # 由 lib/host.sh 探测（python3 或 python）
 
 # ───────────────────────── Zotero 版本（从 application.ini / omni.ja 读）
 ZOTERO_VER=""
@@ -136,7 +138,7 @@ SI_PLUGIN_ID="suppl-dl@example.com"
 PLUGIN_VER=""; SI_PLUGIN_VER=""
 if [ -n "$PROFILE_DIR" ] && [ -f "$PROFILE_DIR/extensions.json" ]; then
   read -r PLUGIN_VER SI_PLUGIN_VER <<EOF
-$(python3 - "$PROFILE_DIR/extensions.json" "$PLUGIN_ID" "$SI_PLUGIN_ID" <<'PY' 2>/dev/null || echo " "
+$(host_py - "$PROFILE_DIR/extensions.json" "$PLUGIN_ID" "$SI_PLUGIN_ID" <<'PY' 2>/dev/null || echo " "
 import json, sys
 try:
     d = json.load(open(sys.argv[1], encoding="utf8"))

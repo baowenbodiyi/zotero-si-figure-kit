@@ -89,6 +89,29 @@ Zotero 插件跑在 **bootstrap Sandbox** 里；pdf.js 跑在**另一个模块 r
 | 用户级 npm 可能留死代理 | `npm ci` 直接 network error。真遇到就 `--userconfig /dev/null` 重试（但别无条件绕过：别人的代理可能是必需的） |
 | `.ps1` 必须 ASCII 无 BOM | 非 ASCII 注释 + 无 BOM → Windows PowerShell 按 ANSI 解析 → **`$args` 全空**，脚本静默不干活 |
 | Zotero 是**单实例** | 已经在跑时再 `Start-Process` 只会在已有实例里开窗口；脚本必须先确认旧进程真的没了 |
+| **`.ps1` 的 BOM 是反的坑** | 上面那条说的是「只有 ASCII 就别加 BOM」；但**带中文注释就必须 UTF-8 with BOM**，否则 PowerShell 5.1 按 ANSI 解析，中文注释变乱码甚至语法错。`lint_portable.sh` 会检查 |
+| **`npm.ps1` 会被执行策略拦** | 直接敲 `npm` 在 PowerShell 里解析到 `npm.ps1` → `PSSecurityException: UnauthorizedAccess`。**必须走 `npm.cmd`/`npx.cmd`**（`Resolve-Cmd` 就是干这个的） |
+| **Windows 没有 `patch`、没有 `git`** | 实测干净 Windows：`node/npm/curl/tar` ✅，`patch/git/zip/sha256sum` ❌。所以补丁结果改由**覆盖层**分发（`patched-2.4.8.67/`），`prepare` 只是「复制 + 盖」 |
+| **Zotero 9.x 版本号在 `app\application.ini`** | `C:\Program Files\Zotero\application.ini` **不存在**；只查根目录会静默读到空版本 |
+| **Windows 上通常没有 `python3`** | 只有 `python`（或 `py`）。脚本里一律 `host_py`，别直接写 `python3` |
+| **macOS 自带 bash 3.2** | 没有 `declare -A` / `mapfile` / `${v,,}`；`stat -c` / `grep -P` / `sort -V` / `readlink -f` / `date -d` / `xargs -r` 也都没有。全部换成了 `host_*` 包装 + `lint_portable.sh` 守着 |
+| **`ConvertTo-Json` 默认 `-Depth 2`** | 拿它改 Zotero 的 `extensions.json` 会把深层字段截成字符串 → Zotero 认为插件损坏并删掉它。改用 Node 的 `JSON.parse/stringify`（`patch_extensions.mjs`） |
+| **`ErrorActionPreference='Stop'` 会吃掉外部程序的 stderr** | `npm ci` 往 stderr 写 deprecated 警告 → PowerShell 当终止性错误 → **npm 装完了脚本却停在那**（日志只剩半行）。所有外部调用走 `Invoke-Native`，**按退出码判成败** |
+| **`$x = if (...) { @('ci') }` 会解包成字符串** | 单元素数组被解包，`+=` 数组时按 `$OFS` 拼接 → 粘成 `ci--no-audit` 传给 npm，报 `Unknown command`。必须显式逐项 `+=` |
+| **`require()` 按 cwd 解析** | `require('parse5')` 不在 `tests/` 里做会报 `Cannot find module` —— 明明装上了。同理 PowerShell 从 WSL 启动时 cwd 是 `\\wsl.localhost\...` UNC 路径，脚本要先钉住 cwd |
+| **控制台码页会把中文日志搞成有损乱码** | node 写 UTF-8，PS 5.1 按码页 936 解码 → 中文乱码；`Out-File` 再存一次就是**二次编码，还原不回来**。`_common.ps1` 里显式设 `[Console]::OutputEncoding` 为 UTF-8 |
+| **构建会重新生成 `typings/`** | `zotero-plugin-scaffold` 会把新 prefs 写进 `typings/i10n.d.ts` 与 `prefs.d.ts`（pristine 的是旧的）。所以①补丁必须 `-x typings` 排除它；②`prepare` **必须带上** pristine 的旧版给 `tsc` 用，删了就报几百个 `Cannot find name 'Ztoolkit'` |
+| **只删构建产物，别删 `typings/`** | `typings/` 是上游**受版本控制的源码**（3 个 `.d.ts`）。`prepare` 把它删掉会让 `tsc` 报几百个 `Cannot find name 'Ztoolkit'` —— **我自己犯过这个错**，靠真跑 `tsc` 才抓到 |
+
+**宿主适配层的存在理由**：上面这些差异不该散落在每个脚本里。全部关进
+`scripts/lib/host.sh`（`host_size` / `host_sha256` / `host_py` / `host_latest` /
+`host_zotero_pids|stop|start`），上层脚本就只有一条代码路径：
+`bash scripts/lib/host.sh` 可以直接跑，它会打印它探测到的宿主结论。
+
+**为什么「四个平台都能用」这句话可信**：CI（`.github/workflows/verify.yml`）在
+`ubuntu-latest` / `macos-latest` / `windows-latest`（PowerShell 路线）各跑一遍
+147 项离线断言，外加两条守卫：覆盖层↔补丁逐字节一致、可移植性 lint。
+macOS 没有作者真机 —— 那条结论**只来自 CI**。
 
 ### 3.3 数据格式（改 SI 取图必读）
 

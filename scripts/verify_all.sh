@@ -20,7 +20,7 @@ export ZPT_FIXTURES="${ZPT_FIXTURES:-$HERE/tests/fixtures}"
 mkdir -p "$ZPT_BUILD"
 
 ESB="$ZPT_SRC/node_modules/.bin/esbuild"
-[ -x "$ESB" ] || { echo "❌ 缺 esbuild（$ESB）。先跑 bash scripts/apply_patch.sh && bash scripts/setup_deps.sh"; exit 1; }
+[ -x "$ESB" ] || { echo "❌ 缺 esbuild（$ESB）。先跑 bash scripts/prepare_src.sh && bash scripts/setup_deps.sh"; exit 1; }
 [ -d "$ZPT_FIXTURES" ] || { echo "❌ 缺 fixture 目录 $ZPT_FIXTURES"; exit 1; }
 
 echo "== 编译要发布的源码（就是插件里跑的那几个模块）=="
