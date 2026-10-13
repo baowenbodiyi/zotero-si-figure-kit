@@ -1,6 +1,6 @@
 diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x .git -x tsconfig.tsbuildinfo -x .npmrc -x '*.orig' -x '*.rej' pristine/addon/chrome/content/preferences.xhtml src/addon/chrome/content/preferences.xhtml
 --- pristine/addon/chrome/content/preferences.xhtml	2026-10-03 19:50:05.000000000 +0800
-+++ src/addon/chrome/content/preferences.xhtml	2026-10-11 14:47:47.389944746 +0800
++++ src/addon/chrome/content/preferences.xhtml	2026-10-13 23:42:44.351369695 +0800
 @@ -13,6 +13,12 @@
        native="true"
        preference="__prefsPrefix__.enableAuto"
@@ -68,7 +68,7 @@ diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x 
        native="true"
 diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x .git -x tsconfig.tsbuildinfo -x .npmrc -x '*.orig' -x '*.rej' pristine/addon/chrome/content/standalone.xhtml src/addon/chrome/content/standalone.xhtml
 --- pristine/addon/chrome/content/standalone.xhtml	2026-10-03 19:50:05.000000000 +0800
-+++ src/addon/chrome/content/standalone.xhtml	2026-10-11 15:30:23.291640310 +0800
++++ src/addon/chrome/content/standalone.xhtml	2026-10-13 23:42:44.351678697 +0800
 @@ -46,6 +46,11 @@
    <script src="chrome://__addonRef__/content/scripts/customElements.js"></script>
    <translator-plugin-panel id="__addonRef__-panel" />
@@ -83,7 +83,7 @@ diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x 
    </hbox>
 diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x .git -x tsconfig.tsbuildinfo -x .npmrc -x '*.orig' -x '*.rej' pristine/addon/locale/en-US/addon.ftl src/addon/locale/en-US/addon.ftl
 --- pristine/addon/locale/en-US/addon.ftl	2026-10-03 19:50:05.000000000 +0800
-+++ src/addon/locale/en-US/addon.ftl	2026-10-11 16:15:37.487325726 +0800
++++ src/addon/locale/en-US/addon.ftl	2026-10-13 23:42:44.351769326 +0800
 @@ -173,6 +173,10 @@
  
  readerpopup-translate-label=Translate
@@ -105,7 +105,7 @@ diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x 
 +readerpopup-resize-title=Drag the bottom-right corner to resize the popup (saved in settings)
 diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x .git -x tsconfig.tsbuildinfo -x .npmrc -x '*.orig' -x '*.rej' pristine/addon/locale/en-US/preferences.ftl src/addon/locale/en-US/preferences.ftl
 --- pristine/addon/locale/en-US/preferences.ftl	2026-10-03 19:50:05.000000000 +0800
-+++ src/addon/locale/en-US/preferences.ftl	2026-10-11 16:08:37.310970581 +0800
++++ src/addon/locale/en-US/preferences.ftl	2026-10-13 23:42:44.351838838 +0800
 @@ -22,6 +22,8 @@
      .label = Show "Add Translation to Note" in Pop-up
  pref-basic-enableNoteReplaceMode =
@@ -141,7 +141,7 @@ diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x 
  pref-interface-rawResultOrder =
 diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x .git -x tsconfig.tsbuildinfo -x .npmrc -x '*.orig' -x '*.rej' pristine/addon/locale/en-US/standalone.ftl src/addon/locale/en-US/standalone.ftl
 --- pristine/addon/locale/en-US/standalone.ftl	2026-10-03 19:50:05.000000000 +0800
-+++ src/addon/locale/en-US/standalone.ftl	2026-10-11 15:30:29.209555942 +0800
++++ src/addon/locale/en-US/standalone.ftl	2026-10-13 23:42:44.351887052 +0800
 @@ -1,3 +1,9 @@
 +font-minus =
 +    .label = A-
@@ -161,7 +161,7 @@ diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x 
 +    .tooltiptext = Cycle the translation font family (Zotero default / serif / sans / mono)
 diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x .git -x tsconfig.tsbuildinfo -x .npmrc -x '*.orig' -x '*.rej' pristine/addon/locale/it-IT/addon.ftl src/addon/locale/it-IT/addon.ftl
 --- pristine/addon/locale/it-IT/addon.ftl	2026-10-03 19:50:05.000000000 +0800
-+++ src/addon/locale/it-IT/addon.ftl	2026-10-11 16:15:37.488648855 +0800
++++ src/addon/locale/it-IT/addon.ftl	2026-10-13 23:42:44.351943111 +0800
 @@ -173,6 +173,10 @@
  
  readerpopup-translate-label=Traduci
@@ -183,7 +183,7 @@ diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x 
 +readerpopup-resize-title=Trascina l angolo in basso a destra per ridimensionare
 diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x .git -x tsconfig.tsbuildinfo -x .npmrc -x '*.orig' -x '*.rej' pristine/addon/locale/it-IT/preferences.ftl src/addon/locale/it-IT/preferences.ftl
 --- pristine/addon/locale/it-IT/preferences.ftl	2026-10-03 19:50:05.000000000 +0800
-+++ src/addon/locale/it-IT/preferences.ftl	2026-10-11 14:48:03.149023267 +0800
++++ src/addon/locale/it-IT/preferences.ftl	2026-10-13 23:42:44.352056435 +0800
 @@ -67,6 +67,14 @@
      .value = Dimensione font
  pref-interface-lineHeight =
@@ -207,7 +207,7 @@ diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x 
 +    .label = Save Translations Next to the Document (Translation Memory)
 diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x .git -x tsconfig.tsbuildinfo -x .npmrc -x '*.orig' -x '*.rej' pristine/addon/locale/it-IT/standalone.ftl src/addon/locale/it-IT/standalone.ftl
 --- pristine/addon/locale/it-IT/standalone.ftl	2026-10-03 19:50:05.000000000 +0800
-+++ src/addon/locale/it-IT/standalone.ftl	2026-10-11 15:30:29.209594619 +0800
++++ src/addon/locale/it-IT/standalone.ftl	2026-10-13 23:42:44.352140110 +0800
 @@ -1,3 +1,9 @@
 +font-minus =
 +    .label = A-
@@ -226,8 +226,8 @@ diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x 
 +    .label = Font
 +    .tooltiptext = Cambia la famiglia di caratteri della traduzione
 diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x .git -x tsconfig.tsbuildinfo -x .npmrc -x '*.orig' -x '*.rej' pristine/addon/locale/sr-Latn-RS/addon.ftl src/addon/locale/sr-Latn-RS/addon.ftl
---- pristine/addon/locale/sr-Latn-RS/addon.ftl	2026-10-03 19:50:05.000000000 +0800
-+++ src/addon/locale/sr-Latn-RS/addon.ftl	2026-10-11 16:15:37.490269714 +0800
+--- pristine/addon/locale/sr-Latn-RS/addon.ftl	2026-10-14 00:13:23.115551683 +0800
++++ src/addon/locale/sr-Latn-RS/addon.ftl	2026-10-13 23:42:44.352226269 +0800
 @@ -143,6 +143,10 @@
  service-youdaozhiyunllm-dialog-stream = Tok odgovora
  readerpopup-translate-label = Prevedi
@@ -249,8 +249,8 @@ diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x 
 +readerpopup-drag-title=Drži ovu traku da pomeriš prozor
 +readerpopup-resize-title=Prevuci donji desni ugao da promeniš veličinu
 diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x .git -x tsconfig.tsbuildinfo -x .npmrc -x '*.orig' -x '*.rej' pristine/addon/locale/sr-Latn-RS/preferences.ftl src/addon/locale/sr-Latn-RS/preferences.ftl
---- pristine/addon/locale/sr-Latn-RS/preferences.ftl	2026-10-03 19:50:05.000000000 +0800
-+++ src/addon/locale/sr-Latn-RS/preferences.ftl	2026-10-11 14:48:03.193023262 +0800
+--- pristine/addon/locale/sr-Latn-RS/preferences.ftl	2026-10-14 00:13:23.111542003 +0800
++++ src/addon/locale/sr-Latn-RS/preferences.ftl	2026-10-13 23:42:44.352383387 +0800
 @@ -65,6 +65,14 @@
      .label = Prikaži kontekstni meni stavke
  pref-interface-showItemMenuTitleTranslation =
@@ -266,17 +266,15 @@ diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x 
  pref-interface-showItemMenuAbstractTranslation =
      .label = Kontekstni meni stavke: prikaži prevod sažetka
  pref-interface-showSidebarEngine =
-@@ -126,4 +134,6 @@
-     .value = { $name }, verzija { $version }, izdanje { $time }
+@@ -127,3 +135,5 @@
  pref-advanced-stripEmptyLines =
      .label = Ukloni prazne redove i tekst razmišljanja iz rezultata prevoda
--
-+
+ 
 +pref-basic-enablePersistentCache =
 +    .label = Save Translations Next to the Document (Translation Memory)
 diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x .git -x tsconfig.tsbuildinfo -x .npmrc -x '*.orig' -x '*.rej' pristine/addon/locale/sr-Latn-RS/standalone.ftl src/addon/locale/sr-Latn-RS/standalone.ftl
---- pristine/addon/locale/sr-Latn-RS/standalone.ftl	2026-10-03 19:50:05.000000000 +0800
-+++ src/addon/locale/sr-Latn-RS/standalone.ftl	2026-10-11 15:30:29.209628020 +0800
+--- pristine/addon/locale/sr-Latn-RS/standalone.ftl	2026-10-14 00:13:23.115998125 +0800
++++ src/addon/locale/sr-Latn-RS/standalone.ftl	2026-10-13 23:42:44.352478078 +0800
 @@ -1,3 +1,9 @@
 +font-minus =
 +    .label = A-
@@ -297,7 +295,7 @@ diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x 
 +    .tooltiptext = Promeni porodicu fonta prevoda
 diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x .git -x tsconfig.tsbuildinfo -x .npmrc -x '*.orig' -x '*.rej' pristine/addon/locale/zh-CN/addon.ftl src/addon/locale/zh-CN/addon.ftl
 --- pristine/addon/locale/zh-CN/addon.ftl	2026-10-03 19:50:05.000000000 +0800
-+++ src/addon/locale/zh-CN/addon.ftl	2026-10-11 16:15:37.485816761 +0800
++++ src/addon/locale/zh-CN/addon.ftl	2026-10-13 23:42:44.352790668 +0800
 @@ -173,6 +173,11 @@
  
  readerpopup-translate-label=翻译
@@ -320,7 +318,7 @@ diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x 
 +readerpopup-resize-title=按住右下角拖动可改变翻译框大小（会存进设置）
 diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x .git -x tsconfig.tsbuildinfo -x .npmrc -x '*.orig' -x '*.rej' pristine/addon/locale/zh-CN/preferences.ftl src/addon/locale/zh-CN/preferences.ftl
 --- pristine/addon/locale/zh-CN/preferences.ftl	2026-10-03 19:50:05.000000000 +0800
-+++ src/addon/locale/zh-CN/preferences.ftl	2026-10-11 16:08:37.309605380 +0800
++++ src/addon/locale/zh-CN/preferences.ftl	2026-10-13 23:42:44.352951528 +0800
 @@ -22,6 +22,8 @@
      .label = 在弹窗中显示“添加翻译至笔记”
  pref-basic-enableNoteReplaceMode =
@@ -356,7 +354,7 @@ diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x 
  pref-interface-rawResultOrder =
 diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x .git -x tsconfig.tsbuildinfo -x .npmrc -x '*.orig' -x '*.rej' pristine/addon/locale/zh-CN/standalone.ftl src/addon/locale/zh-CN/standalone.ftl
 --- pristine/addon/locale/zh-CN/standalone.ftl	2026-10-03 19:50:05.000000000 +0800
-+++ src/addon/locale/zh-CN/standalone.ftl	2026-10-11 15:30:29.209471536 +0800
++++ src/addon/locale/zh-CN/standalone.ftl	2026-10-13 23:42:44.353070459 +0800
 @@ -1,3 +1,9 @@
 +font-minus =
 +    .label = A-
@@ -376,7 +374,7 @@ diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x 
 +    .tooltiptext = 切换译文字体（跟随 Zotero / 宋体 / 雅黑 / 等宽），按钮上显示当前档位
 diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x .git -x tsconfig.tsbuildinfo -x .npmrc -x '*.orig' -x '*.rej' pristine/addon/prefs.js src/addon/prefs.js
 --- pristine/addon/prefs.js	2026-10-03 19:50:05.000000000 +0800
-+++ src/addon/prefs.js	2026-10-11 15:28:36.038723416 +0800
++++ src/addon/prefs.js	2026-10-13 23:42:44.353173989 +0800
 @@ -3,6 +3,9 @@
  pref("__prefsPrefix__.attachPaperContext", false);
  pref("__prefsPrefix__.enablePopup", true);
@@ -407,7 +405,7 @@ diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x 
  pref("__prefsPrefix__.mtranserver.endpoint", "http://localhost:8989/translate");
 diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x .git -x tsconfig.tsbuildinfo -x .npmrc -x '*.orig' -x '*.rej' pristine/package.json src/package.json
 --- pristine/package.json	2026-10-03 19:50:05.000000000 +0800
-+++ src/package.json	2026-10-13 21:57:43.863891820 +0800
++++ src/package.json	2026-10-13 23:42:44.353276315 +0800
 @@ -1,6 +1,6 @@
  {
    "name": "zotero-pdf-translate",
@@ -425,7 +423,7 @@ diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x 
 \ No newline at end of file
 diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x .git -x tsconfig.tsbuildinfo -x .npmrc -x '*.orig' -x '*.rej' pristine/src/elements/mathTextbox.ts src/src/elements/mathTextbox.ts
 --- pristine/src/elements/mathTextbox.ts	2026-10-03 19:50:05.000000000 +0800
-+++ src/src/elements/mathTextbox.ts	2026-10-12 09:58:06.310685502 +0800
++++ src/src/elements/mathTextbox.ts	2026-10-13 23:42:44.353374166 +0800
 @@ -1,5 +1,12 @@
  import { config } from "../../package.json";
 -import { renderMathInText, containsMath } from "../utils/mathRenderer";
@@ -492,7 +490,7 @@ diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x 
      });
 diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x .git -x tsconfig.tsbuildinfo -x .npmrc -x '*.orig' -x '*.rej' pristine/src/elements/panel.ts src/src/elements/panel.ts
 --- pristine/src/elements/panel.ts	2026-10-03 19:50:05.000000000 +0800
-+++ src/src/elements/panel.ts	2026-10-11 14:47:33.907612337 +0800
++++ src/src/elements/panel.ts	2026-10-13 23:42:44.353497232 +0800
 @@ -1,6 +1,8 @@
  import { config } from "../../package.json";
  import { PluginCEBase } from "./base";
@@ -515,7 +513,7 @@ diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x 
      updateHidden("engine", "showSidebarEngine");
 diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x .git -x tsconfig.tsbuildinfo -x .npmrc -x '*.orig' -x '*.rej' pristine/src/hooks.ts src/src/hooks.ts
 --- pristine/src/hooks.ts	2026-10-03 19:50:05.000000000 +0800
-+++ src/src/hooks.ts	2026-10-12 12:48:51.463566241 +0800
++++ src/src/hooks.ts	2026-10-13 23:42:44.353650728 +0800
 @@ -11,7 +11,9 @@
  import { buildReaderPopup, updateReaderPopup } from "./modules/popup";
  import { registerNotify } from "./modules/notify";
@@ -596,7 +594,7 @@ diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x 
      onMainWindowUnload(win);
 diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x .git -x tsconfig.tsbuildinfo -x .npmrc -x '*.orig' -x '*.rej' pristine/src/modules/citationBox.ts src/src/modules/citationBox.ts
 --- pristine/src/modules/citationBox.ts	1970-01-01 08:00:00.000000000 +0800
-+++ src/src/modules/citationBox.ts	2026-10-12 13:52:24.068974880 +0800
++++ src/src/modules/citationBox.ts	2026-10-13 23:42:44.353833126 +0800
 @@ -0,0 +1,290 @@
 +/**
 + * ⭐ 补丁：点译文里的引用角标 `[26]` → 就地显示这条参考文献 + DOI。
@@ -890,7 +888,7 @@ diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x 
 +};
 diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x .git -x tsconfig.tsbuildinfo -x .npmrc -x '*.orig' -x '*.rej' pristine/src/modules/popup.ts src/src/modules/popup.ts
 --- pristine/src/modules/popup.ts	2026-10-03 19:50:05.000000000 +0800
-+++ src/src/modules/popup.ts	2026-10-12 13:52:24.069285817 +0800
++++ src/src/modules/popup.ts	2026-10-13 23:42:44.354039437 +0800
 @@ -2,8 +2,38 @@
  import { config } from "../../package.json";
  import { getString } from "../utils/locale";
@@ -1516,7 +1514,7 @@ diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x 
  function onTextAreaResize(ev: MouseEvent) {
 diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x .git -x tsconfig.tsbuildinfo -x .npmrc -x '*.orig' -x '*.rej' pristine/src/modules/preferenceWindow.ts src/src/modules/preferenceWindow.ts
 --- pristine/src/modules/preferenceWindow.ts	2026-10-03 19:50:05.000000000 +0800
-+++ src/src/modules/preferenceWindow.ts	2026-10-11 15:14:38.053566771 +0800
++++ src/src/modules/preferenceWindow.ts	2026-10-13 23:42:44.354341438 +0800
 @@ -186,6 +186,19 @@
        onPrefsEvents("setAutoTranslateSelection");
      });
@@ -1539,7 +1537,7 @@ diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x 
      ?.addEventListener("command", (e: Event) => {
 diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x .git -x tsconfig.tsbuildinfo -x .npmrc -x '*.orig' -x '*.rej' pristine/src/modules/services/index.ts src/src/modules/services/index.ts
 --- pristine/src/modules/services/index.ts	2026-10-03 19:50:05.000000000 +0800
-+++ src/src/modules/services/index.ts	2026-10-12 14:15:50.603807770 +0800
++++ src/src/modules/services/index.ts	2026-10-13 23:42:44.354478828 +0800
 @@ -8,6 +8,16 @@
    TranslateTaskRunner,
    stripEmptyLines,
@@ -1690,7 +1688,7 @@ diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x 
      if (success) {
 diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x .git -x tsconfig.tsbuildinfo -x .npmrc -x '*.orig' -x '*.rej' pristine/src/modules/siBox.ts src/src/modules/siBox.ts
 --- pristine/src/modules/siBox.ts	1970-01-01 08:00:00.000000000 +0800
-+++ src/src/modules/siBox.ts	2026-10-13 21:57:25.880168822 +0800
++++ src/src/modules/siBox.ts	2026-10-13 23:42:44.354702223 +0800
 @@ -0,0 +1,948 @@
 +/**
 + * ⭐ 补丁：一块**独立的 SI 插图浮窗**。
@@ -2642,7 +2640,7 @@ diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x 
 +}
 diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x .git -x tsconfig.tsbuildinfo -x .npmrc -x '*.orig' -x '*.rej' pristine/src/modules/tabpanel.ts src/src/modules/tabpanel.ts
 --- pristine/src/modules/tabpanel.ts	2026-10-03 19:50:05.000000000 +0800
-+++ src/src/modules/tabpanel.ts	2026-10-11 15:30:40.910114619 +0800
++++ src/src/modules/tabpanel.ts	2026-10-13 23:42:44.354829205 +0800
 @@ -1,10 +1,14 @@
  import { getLocaleID } from "../utils/locale";
  import { config } from "../../package.json";
@@ -2732,7 +2730,7 @@ diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x 
            ],
 diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x .git -x tsconfig.tsbuildinfo -x .npmrc -x '*.orig' -x '*.rej' pristine/src/utils/citationRefs.ts src/src/utils/citationRefs.ts
 --- pristine/src/utils/citationRefs.ts	1970-01-01 08:00:00.000000000 +0800
-+++ src/src/utils/citationRefs.ts	2026-10-12 17:02:15.699491584 +0800
++++ src/src/utils/citationRefs.ts	2026-10-13 23:42:44.354988670 +0800
 @@ -0,0 +1,355 @@
 +import { debugLog } from "./debugLog";
 +/**
@@ -3091,7 +3089,7 @@ diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x 
 +}
 diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x .git -x tsconfig.tsbuildinfo -x .npmrc -x '*.orig' -x '*.rej' pristine/src/utils/debugLog.ts src/src/utils/debugLog.ts
 --- pristine/src/utils/debugLog.ts	1970-01-01 08:00:00.000000000 +0800
-+++ src/src/utils/debugLog.ts	2026-10-13 21:57:43.863353734 +0800
++++ src/src/utils/debugLog.ts	2026-10-13 23:42:44.355039241 +0800
 @@ -0,0 +1,63 @@
 +/**
 + * ⭐ 补丁：一个极简的调试日志。
@@ -3158,7 +3156,7 @@ diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x 
 +}
 diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x .git -x tsconfig.tsbuildinfo -x .npmrc -x '*.orig' -x '*.rej' pristine/src/utils/docx.ts src/src/utils/docx.ts
 --- pristine/src/utils/docx.ts	1970-01-01 08:00:00.000000000 +0800
-+++ src/src/utils/docx.ts	2026-10-13 21:35:58.813778888 +0800
++++ src/src/utils/docx.ts	2026-10-13 23:42:44.355076328 +0800
 @@ -0,0 +1,499 @@
 +/**
 + * 从 `.docx` 里取「图 + 图注」。
@@ -3661,7 +3659,7 @@ diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x 
 +}
 diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x .git -x tsconfig.tsbuildinfo -x .npmrc -x '*.orig' -x '*.rej' pristine/src/utils/fontStyle.ts src/src/utils/fontStyle.ts
 --- pristine/src/utils/fontStyle.ts	1970-01-01 08:00:00.000000000 +0800
-+++ src/src/utils/fontStyle.ts	2026-10-11 14:47:07.815589528 +0800
++++ src/src/utils/fontStyle.ts	2026-10-13 23:42:44.355223748 +0800
 @@ -0,0 +1,36 @@
 +/**
 + * 统一计算/应用「字体」相关样式。
@@ -3701,7 +3699,7 @@ diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x 
 +}
 diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x .git -x tsconfig.tsbuildinfo -x .npmrc -x '*.orig' -x '*.rej' pristine/src/utils/inflate.ts src/src/utils/inflate.ts
 --- pristine/src/utils/inflate.ts	1970-01-01 08:00:00.000000000 +0800
-+++ src/src/utils/inflate.ts	2026-10-12 15:03:05.044516644 +0800
++++ src/src/utils/inflate.ts	2026-10-13 23:42:44.355285361 +0800
 @@ -0,0 +1,260 @@
 +/**
 + * 纯 JS 的 raw DEFLATE 解压（RFC1951，无 zlib 头）。
@@ -3965,7 +3963,7 @@ diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x 
 +}
 diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x .git -x tsconfig.tsbuildinfo -x .npmrc -x '*.orig' -x '*.rej' pristine/src/utils/llmPrompt.ts src/src/utils/llmPrompt.ts
 --- pristine/src/utils/llmPrompt.ts	2026-10-03 19:50:05.000000000 +0800
-+++ src/src/utils/llmPrompt.ts	2026-10-12 14:14:48.743243921 +0800
++++ src/src/utils/llmPrompt.ts	2026-10-13 23:42:44.355358092 +0800
 @@ -14,7 +14,10 @@
    sourceText: string,
    data: Required<TranslateTask>,
@@ -3980,7 +3978,7 @@ diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x 
    const before = prompt.slice(0, markerIndex);
 diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x .git -x tsconfig.tsbuildinfo -x .npmrc -x '*.orig' -x '*.rej' pristine/src/utils/mathRenderer.ts src/src/utils/mathRenderer.ts
 --- pristine/src/utils/mathRenderer.ts	2026-10-03 19:50:05.000000000 +0800
-+++ src/src/utils/mathRenderer.ts	2026-10-12 15:32:18.035115199 +0800
++++ src/src/utils/mathRenderer.ts	2026-10-13 23:43:52.486038254 +0800
 @@ -2,9 +2,19 @@
  
  // Unified, robust math rendering helpers
@@ -4222,7 +4220,7 @@ diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x 
  }
 diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x .git -x tsconfig.tsbuildinfo -x .npmrc -x '*.orig' -x '*.rej' pristine/src/utils/persistentCache.ts src/src/utils/persistentCache.ts
 --- pristine/src/utils/persistentCache.ts	1970-01-01 08:00:00.000000000 +0800
-+++ src/src/utils/persistentCache.ts	2026-10-12 14:15:50.603658768 +0800
++++ src/src/utils/persistentCache.ts	2026-10-13 23:42:44.355567294 +0800
 @@ -0,0 +1,313 @@
 +/**
 + * Persistent translation memory (a.k.a. 翻译记忆 / 持久化缓存).
@@ -4539,7 +4537,7 @@ diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x 
 +}
 diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x .git -x tsconfig.tsbuildinfo -x .npmrc -x '*.orig' -x '*.rej' pristine/src/utils/pngEncode.ts src/src/utils/pngEncode.ts
 --- pristine/src/utils/pngEncode.ts	1970-01-01 08:00:00.000000000 +0800
-+++ src/src/utils/pngEncode.ts	2026-10-12 13:22:51.779200255 +0800
++++ src/src/utils/pngEncode.ts	2026-10-13 23:42:44.355632992 +0800
 @@ -0,0 +1,219 @@
 +/**
 + * ⭐ 补丁：一个零依赖的 PNG 编码器。
@@ -4762,7 +4760,7 @@ diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x 
 +}
 diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x .git -x tsconfig.tsbuildinfo -x .npmrc -x '*.orig' -x '*.rej' pristine/src/utils/sentenceMemory.ts src/src/utils/sentenceMemory.ts
 --- pristine/src/utils/sentenceMemory.ts	1970-01-01 08:00:00.000000000 +0800
-+++ src/src/utils/sentenceMemory.ts	2026-10-12 10:52:03.283047168 +0800
++++ src/src/utils/sentenceMemory.ts	2026-10-13 23:42:44.355682364 +0800
 @@ -0,0 +1,338 @@
 +/**
 + * ⭐ 补丁：句子级翻译记忆。
@@ -5104,7 +5102,7 @@ diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x 
 +}
 diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x .git -x tsconfig.tsbuildinfo -x .npmrc -x '*.orig' -x '*.rej' pristine/src/utils/siFigure.ts src/src/utils/siFigure.ts
 --- pristine/src/utils/siFigure.ts	1970-01-01 08:00:00.000000000 +0800
-+++ src/src/utils/siFigure.ts	2026-10-12 15:06:41.495984721 +0800
++++ src/src/utils/siFigure.ts	2026-10-13 23:42:44.355743021 +0800
 @@ -0,0 +1,636 @@
 +/**
 + * ⭐ 补丁：把 SI 里那张图**真的取出来**，贴到翻译框旁边的面板里。
@@ -5744,7 +5742,7 @@ diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x 
 +}
 diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x .git -x tsconfig.tsbuildinfo -x .npmrc -x '*.orig' -x '*.rej' pristine/src/utils/siRefs.ts src/src/utils/siRefs.ts
 --- pristine/src/utils/siRefs.ts	1970-01-01 08:00:00.000000000 +0800
-+++ src/src/utils/siRefs.ts	2026-10-13 21:25:34.281956901 +0800
++++ src/src/utils/siRefs.ts	2026-10-13 23:42:44.355838859 +0800
 @@ -0,0 +1,529 @@
 +/**
 + * ⭐ 补丁：正文里引用的 SI（支撑信息）图注 → 在翻译框旁边给出可点的入口。
@@ -6277,7 +6275,7 @@ diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x 
 +}
 diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x .git -x tsconfig.tsbuildinfo -x .npmrc -x '*.orig' -x '*.rej' pristine/src/utils/task.ts src/src/utils/task.ts
 --- pristine/src/utils/task.ts	2026-10-03 19:50:05.000000000 +0800
-+++ src/src/utils/task.ts	2026-10-12 14:14:48.741634714 +0800
++++ src/src/utils/task.ts	2026-10-13 23:42:44.355963185 +0800
 @@ -50,6 +50,14 @@
     */
    langfrom?: string;
@@ -6312,7 +6310,7 @@ diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x 
  export type TranslateTaskProcessor = (
 diff -ruN -x node_modules -x build -x .cache -x typings -x package-lock.json -x .git -x tsconfig.tsbuildinfo -x .npmrc -x '*.orig' -x '*.rej' pristine/src/utils/tiff.ts src/src/utils/tiff.ts
 --- pristine/src/utils/tiff.ts	1970-01-01 08:00:00.000000000 +0800
-+++ src/src/utils/tiff.ts	2026-10-12 15:03:28.951187258 +0800
++++ src/src/utils/tiff.ts	2026-10-13 23:42:44.356058988 +0800
 @@ -0,0 +1,404 @@
 +/**
 + * 最小 TIFF 解码器：把 SI（Word）里嵌的图变成 RGBA。

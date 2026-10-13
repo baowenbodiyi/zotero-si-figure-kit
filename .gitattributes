@@ -1,0 +1,17 @@
+# ═══════════════════════════════════════════════════════════════════════════
+# 行尾策略：本仓库一律 **LF**，且不许任何隐式转换。
+#
+# 为什么这条不能省（实测踩到、且症状很隐蔽）：
+#   上游 windingwind/zotero-pdf-translate 自带 `* text=auto eol=lf`，
+#   而它 vendored 的 sr-Latn-RS locale 文件在**上游 tarball 里是 CRLF**。
+#   如果本仓库不表态，就会出现：
+#     · 我本地工作树是 CRLF（补丁的上下文行也是 CRLF）→ patch 打得进去
+#     · CI 的全新 checkout 被归一化成 LF → `patch` 报 "Hunk #2 FAILED"
+#   即「本地全绿、CI 全红」，而且只看本地永远查不出来。
+#
+# 所以：pristine / 覆盖层 / 补丁 三者统一为 LF（与上游一致），
+#      再用这条属性把「不许转换」写死，保证克隆出来的字节 == 我提交的字节。
+#
+# `-text`：不做行尾转换、不做 diff 归一化 —— 二进制 fixture（PNG/woff2/docx/xpi）
+#          与 .ps1 的 BOM 都按原字节存取。
+* -text
